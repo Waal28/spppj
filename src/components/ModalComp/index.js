@@ -1,29 +1,50 @@
+import axios from "axios";
+import Cookies from "js-cookie";
+import jwtDecode from "jwt-decode";
 import React, { useState } from "react";
 
-export default function ModalComp({ title, list, setList, setData }) {
-  const [nama, setNama] = useState("");
-  const [pesanan, setPesanan] = useState("");
-  const [harga, setHarga] = useState("");
-  const [uang, setUang] = useState("");
-  const kembalian = uang - harga;
-  const sudahBayar = false;
+export default function ModalComp({ title, category }) {
+  const [isLoading, setIsLoading] = useState(false);
+  const [msg, setMsg] = useState(false);
+  const name = jwtDecode(Cookies.get("user")).name;
+  const [order, setOrder] = useState("");
+  const [price, setPrice] = useState("");
+  const [pay, setPay] = useState("");
+  const status = false;
   const [isCheck, setIsCheck] = useState(false);
 
-  function handleSubmit(e) {
-    const dataBaru = [
-      ...list,
-      { nama, pesanan, harga, uang, kembalian, sudahBayar },
-    ];
-    setList(dataBaru);
-    setData(dataBaru);
-    setNama("");
-    setPesanan("");
-    setHarga("");
-    setUang("");
-    setIsCheck(false);
+  async function handleSubmit(e) {
+    setIsLoading(true);
     e.preventDefault();
+    const dataBaru = { name, order, price, pay, status, category };
+    try {
+      await axios.post(
+        `https://blue-green-llama-robe.cyclic.app/order/create/${category}`,
+        dataBaru,
+        {
+          headers: {
+            Authorization: Cookies.get("user"),
+          },
+        }
+      );
+      setOrder("");
+      setPrice("");
+      setPay("");
+      setIsLoading(false);
+      setIsCheck(false);
+    } catch (error) {
+      setMsg(error.response.data.errors);
+      setIsLoading(false);
+      setIsCheck(true);
+    }
   }
-
+  const clickBatal = () => {
+    setOrder("");
+    setPrice("");
+    setPay("");
+    setMsg(false);
+    setIsCheck(false);
+  };
   return (
     <>
       <input
@@ -35,29 +56,17 @@ export default function ModalComp({ title, list, setList, setData }) {
       />
       <div className="modal">
         <form onSubmit={handleSubmit} className="modal-box">
-          <h3 className="font-bold text-lg">Pesan {title}</h3>
+          <h3 className="font-bold text-lg capitalize">Pesan {title}</h3>
+          {msg && <AlertComp msg={msg} setMsg={setMsg} />}
           <div>
-            <div className="form-control w-full">
-              <label className="label">
-                <span className="label-text">Nama</span>
-              </label>
-              <input
-                type="text"
-                placeholder="contoh: iwal"
-                value={nama}
-                required
-                onChange={(e) => setNama(e.target.value)}
-                className="input input-md input-bordered w-full"
-              />
-            </div>
             <div className="form-control w-full">
               <label className="label">
                 <span className="label-text">Pesanan</span>
               </label>
               <textarea
-                value={pesanan}
+                value={order}
                 required
-                onChange={(e) => setPesanan(e.target.value)}
+                onChange={(e) => setOrder(e.target.value)}
                 className="textarea textarea-bordered"
                 placeholder="contoh: batagor, balsem"
               ></textarea>
@@ -71,9 +80,9 @@ export default function ModalComp({ title, list, setList, setData }) {
                 <input
                   type="number"
                   placeholder="contoh: 8000"
-                  value={harga}
+                  value={price}
                   required
-                  onChange={(e) => setHarga(e.target.value)}
+                  onChange={(e) => setPrice(e.target.value)}
                   className="input input-md input-bordered w-full"
                 />
               </label>
@@ -87,16 +96,19 @@ export default function ModalComp({ title, list, setList, setData }) {
                 <input
                   type="number"
                   placeholder="contoh: 10000"
-                  value={uang}
+                  value={pay}
                   required
-                  onChange={(e) => setUang(e.target.value)}
+                  onChange={(e) => setPay(e.target.value)}
                   className="input input-md input-bordered w-full"
                 />
               </label>
             </div>
           </div>
           <div className="flex justify-between mt-8">
-            <label htmlFor="my_modal_1" className="btn btn-md text-xs">
+            <label
+              onClick={clickBatal}
+              className="btn btn-md shadow-md text-xs"
+            >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 className="h-5 w-5 text-xs"
@@ -109,17 +121,21 @@ export default function ModalComp({ title, list, setList, setData }) {
               </svg>
               Batal
             </label>
-            <button className="btn btn-md text-xs" type="submit">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="h-5 w-5 text-xs"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  fill="#888888"
-                  d="M21 7v12q0 .825-.588 1.413T19 21H5q-.825 0-1.413-.588T3 19V5q0-.825.588-1.413T5 3h12l4 4Zm-9 11q1.25 0 2.125-.875T15 15q0-1.25-.875-2.125T12 12q-1.25 0-2.125.875T9 15q0 1.25.875 2.125T12 18Zm-6-8h9V6H6v4Z"
-                />
-              </svg>
+            <button className="btn btn-md shadow-md text-xs" type="submit">
+              {isLoading ? (
+                <Loading />
+              ) : (
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="h-5 w-5 text-xs"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    fill="#888888"
+                    d="M21 7v12q0 .825-.588 1.413T19 21H5q-.825 0-1.413-.588T3 19V5q0-.825.588-1.413T5 3h12l4 4Zm-9 11q1.25 0 2.125-.875T15 15q0-1.25-.875-2.125T12 12q-1.25 0-2.125.875T9 15q0 1.25.875 2.125T12 18Zm-6-8h9V6H6v4Z"
+                  />
+                </svg>
+              )}
               Simpan
             </button>
           </div>
@@ -131,3 +147,17 @@ export default function ModalComp({ title, list, setList, setData }) {
     </>
   );
 }
+const Loading = () => {
+  return <span className="loading loading-spinner loading-xs"></span>;
+};
+const AlertComp = ({ msg }) => {
+  return (
+    <div
+      className="my-4 bg-red-100 border-l-4 border-red-500 text-red-700 p-4 text-xs"
+      role="alert"
+    >
+      <p className="font-bold">Error</p>
+      <p>{msg}</p>
+    </div>
+  );
+};

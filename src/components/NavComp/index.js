@@ -1,7 +1,17 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import AvatarComp from "../Avatar";
+import jwtDecode from "jwt-decode";
+import Cookies from "js-cookie";
 
 export default function NavComp() {
+  const user = jwtDecode(Cookies.get("user"));
+  const navigate = useNavigate();
+
+  function logout() {
+    Cookies.remove("user");
+    navigate("/login");
+  }
   return (
     <div className="navbar bg-gray-400">
       <div className="navbar-start">
@@ -40,11 +50,16 @@ export default function NavComp() {
                 </li>
               </ul>
             </li>
-            <li>
-              <Link to="/">Penanggung Jawab</Link>
-            </li>
+            {user.role !== "USER" ? (
+              <li>
+                <Link to="/penanggungjawab">Penanggung Jawab</Link>
+              </li>
+            ) : null}
             <li>
               <Link to="/tentang">Tentang</Link>
+            </li>
+            <li>
+              <button onClick={logout}>Logout</button>
             </li>
           </ul>
         </div>
@@ -70,13 +85,21 @@ export default function NavComp() {
               </ul>
             </details>
           </li>
-          <li>
-            <Link to="/">Penanggung Jawab</Link>
-          </li>
+          {user.role !== "USER" ? (
+            <li>
+              <Link to="/penanggungjawab">Penanggung Jawab</Link>
+            </li>
+          ) : null}
           <li>
             <Link to="/tentang">Tentang</Link>
           </li>
+          <li>
+            <button onClick={logout}>Logout</button>
+          </li>
         </ul>
+      </div>
+      <div className="navbar-end">
+        <AvatarComp />
       </div>
     </div>
   );

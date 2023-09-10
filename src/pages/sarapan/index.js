@@ -1,191 +1,21 @@
-import React, { useState } from "react";
-import ParentComp from "../../components/ParentComp";
-import ModalComp from "../../components/ModalComp";
+import React from "react";
+import TempPageList from "../../components/TempPageList";
 
 export default function Sarapan() {
-  const [listSarapan, setListSarapan] = useState([
-    {
-      nama: "iwal",
-      pesanan: "Batagor",
-      harga: 5000,
-      uang: 10000,
-      kembalian: 5000,
-      sudahBayar: true,
-    },
-    {
-      nama: "tori",
-      pesanan: "Teh es",
-      harga: 4000,
-      uang: 5000,
-      kembalian: 1000,
-      sudahBayar: true,
-    },
-  ]);
-  const [data, setData] = useState(listSarapan);
-
-  const [totalUang, setTotalUang] = useState(
-    listSarapan.reduce((acc, curr) => {
-      return acc + +curr.uang;
-    }, 0)
+  const icon = (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      className="fill-current w-7 h-7 ml-3"
+      viewBox="0 0 256 256"
+    >
+      <g fill="#888888">
+        <path
+          d="M192 144a64.33 64.33 0 0 1-2 16H66a64 64 0 1 1 126-16Z"
+          opacity=".2"
+        />
+        <path d="M240 152h-40.45a73.54 73.54 0 0 0 .45-8a72 72 0 0 0-144 0a73.54 73.54 0 0 0 .45 8H16a8 8 0 0 0 0 16h224a8 8 0 0 0 0-16Zm-168-8a56 56 0 1 1 111.41 8H72.59a56.13 56.13 0 0 1-.59-8Zm144 56a8 8 0 0 1-8 8H48a8 8 0 0 1 0-16h160a8 8 0 0 1 8 8ZM72.84 43.58a8 8 0 0 1 14.32-7.16l8 16a8 8 0 0 1-14.32 7.16Zm-56 48.84a8 8 0 0 1 10.74-3.57l16 8a8 8 0 0 1-7.16 14.31l-16-8a8 8 0 0 1-3.58-10.74Zm192 15.16a8 8 0 0 1 3.58-10.73l16-8a8 8 0 1 1 7.16 14.31l-16 8a8 8 0 0 1-10.74-3.58Zm-48-55.16l8-16a8 8 0 0 1 14.32 7.16l-8 16a8 8 0 1 1-14.32-7.16Z" />
+      </g>
+    </svg>
   );
-
-  const [totalKembalian, setTotalKembalian] = useState(
-    listSarapan.reduce((acc, curr) => {
-      return acc + +curr.kembalian;
-    }, 0)
-  );
-  function formatCurrency(amount) {
-    // Menggunakan metode toLocaleString() dengan opsi 'id-ID' untuk format Rupiah
-    return new Intl.NumberFormat("id-ID", {
-      style: "currency",
-      currency: "IDR",
-    }).format(amount);
-  }
-  function filterData(value) {
-    if (value === "sudah bayar") {
-      const diterima = listSarapan.filter((list) => list.sudahBayar === true);
-      const ttlUang = diterima.reduce((acc, curr) => {
-        return acc + +curr.uang;
-      }, 0);
-      const ttlKembalian = diterima.reduce((acc, curr) => {
-        return acc + +curr.kembalian;
-      }, 0);
-      setData(diterima);
-      setTotalUang(ttlUang);
-      setTotalKembalian(ttlKembalian);
-    } else if (value === "belum bayar") {
-      const belum = listSarapan.filter((list) => list.sudahBayar === false);
-      const ttlUang = belum.reduce((acc, curr) => {
-        return acc + +curr.uang;
-      }, 0);
-      const ttlKembalian = belum.reduce((acc, curr) => {
-        return acc + +curr.kembalian;
-      }, 0);
-      setData(belum);
-      setTotalUang(ttlUang);
-      setTotalKembalian(ttlKembalian);
-    } else {
-      const ttlUang = listSarapan.reduce((acc, curr) => {
-        return acc + +curr.uang;
-      }, 0);
-      const ttlKembalian = listSarapan.reduce((acc, curr) => {
-        return acc + +curr.kembalian;
-      }, 0);
-      setData(listSarapan);
-      setTotalUang(ttlUang);
-      setTotalKembalian(ttlKembalian);
-    }
-  }
-  function cari(value) {
-    const keyword = value.toLowerCase();
-    const dataPencarian = listSarapan.filter(
-      (list) =>
-        list.nama.toLowerCase().includes(keyword) ||
-        list.pesanan.toLowerCase().includes(keyword)
-    );
-    setData(dataPencarian);
-  }
-  return (
-    <ParentComp>
-      <div className="lg:w-1/2 md:w-1/2 sm:w-1.2 w-full mx-auto">
-        <h1 className="text-center font-serif text-2xl">
-          List Sarapan Hari ini
-        </h1>
-        <hr className="h-1 mx-auto bg-gray-400 border-0 rounded my-3" />
-        {/* search */}
-        <div className="join w-full border mx-auto mt-5">
-          <input
-            onChange={(e) => cari(e.target.value)}
-            className="input input-sm input-bordered join-item lg:w-1/2 w-3/5"
-            placeholder="Cari nama atau pesanan"
-          />
-          <select
-            onChange={(e) => filterData(e.target.value)}
-            className="select select-sm select-bordered join-item lg:w-1/2 w-2/5"
-          >
-            <option value="Default">Filter status</option>
-            <option value="sudah bayar">Sudah bayar</option>
-            <option value="belum bayar">Belum bayar</option>
-          </select>
-        </div>
-        {/* status */}
-        <div className="grid grid-cols-2 gap 2 text-xs mt-3">
-          <section className="flex items-center">
-            <div className="rounded-full me-2 h-3 w-3 bg-green-200 shadow"></div>
-            sudah bayar
-          </section>
-          <section className="flex items-center">
-            <div className="rounded-full m-2 h-3 w-3 bg-red-200 shadow"></div>
-            belum bayar
-          </section>
-        </div>
-        {/* table */}
-        <div className="overflow-x-auto mx-auto lg w-full rounded-lg">
-          <table className="table">
-            <thead>
-              <tr className="bg-gray-300">
-                <th></th>
-                <th className="text-center">Nama</th>
-                <th className="text-center">Pesanan</th>
-                <th className="text-center">Harga</th>
-                <th className="text-center">Uang</th>
-                <th className="text-center">Kembalian</th>
-              </tr>
-            </thead>
-            <tbody>
-              {data.length >= 1 ? (
-                data.map((list, index) => (
-                  <tr
-                    key={list.nama}
-                    className={list.sudahBayar ? "bg-green-200" : "bg-red-200"}
-                  >
-                    <th className="text-xs">{index + 1}</th>
-                    <td className="text-xs">{list.nama}</td>
-                    <td className="text-xs">{list.pesanan}</td>
-                    <td className="text-xs">{formatCurrency(list.harga)}</td>
-                    <td className="text-xs">{formatCurrency(list.uang)}</td>
-                    <td className="text-xs">
-                      {formatCurrency(list.kembalian)}
-                    </td>
-                  </tr>
-                ))
-              ) : (
-                <tr>
-                  <td className="text-xs text-center font-bold" colSpan="6">
-                    Tidak ada data
-                  </td>
-                </tr>
-              )}
-              <tr className="bg-gray-300">
-                <td className="text-xs text-center" colSpan="4">
-                  Total :
-                </td>
-                <th className="text-xs">{formatCurrency(totalUang)}</th>
-                <th className="text-xs">{formatCurrency(totalKembalian)}</th>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-        {/* add button */}
-        <div className="flex items-end mt-3">
-          <label htmlFor="my_modal_1" className="btn btn-md text-xs">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="h-5 w-5"
-              viewBox="0 0 24 24"
-            >
-              <path fill="#888888" d="M11 13H5v-2h6V5h2v6h6v2h-6v6h-2v-6Z" />
-            </svg>
-            Tambah
-          </label>
-        </div>
-      </div>
-      <ModalComp
-        title="Sarapan"
-        list={listSarapan}
-        setList={setListSarapan}
-        setData={setData}
-      />
-    </ParentComp>
-  );
+  return <TempPageList title="sarapan" category="sarapan" icon={icon} />;
 }
