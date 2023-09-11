@@ -2,8 +2,18 @@ import axios from "axios";
 import Cookies from "js-cookie";
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import ConfirmSetPj from "../ConfirmSetPJ";
 
 export default function ModalChangePJ() {
+  const [confirm, setConfirm] = useState({
+    title: "Ganti Penanggung Jawab",
+    text: "Ganti name sebagai PJ?",
+    titleNbutton: "Batal",
+    titleYbutton: "Ganti",
+    isCheck: true,
+    funcYbutton: () => {},
+  });
+  const [msg, setMsg] = useState(false);
   const navigate = useNavigate();
   const [data, setData] = useState([
     {
@@ -12,128 +22,45 @@ export default function ModalChangePJ() {
       posisi: <Loading />,
     },
   ]);
-  const babi = [
-    {
-      id: Math.random(),
-      name: "aaaaaaaaaaaaa",
-      posisi: "bbbbbbb",
-    },
-    {
-      id: Math.random(),
-      name: "aaaaaaaaaaaaa",
-      posisi: "bbbbbbb",
-    },
-    {
-      id: Math.random(),
-      name: "aaaaaaaaaaaaa",
-      posisi: "bbbbbbb",
-    },
-    {
-      id: Math.random(),
-      name: "aaaaaaaaaaaaa",
-      posisi: "bbbbbbb",
-    },
-    {
-      id: Math.random(),
-      name: "aaaaaaaaaaaaa",
-      posisi: "bbbbbbb",
-    },
-    {
-      id: Math.random(),
-      name: "aaaaaaaaaaaaa",
-      posisi: "bbbbbbb",
-    },
-    {
-      id: Math.random(),
-      name: "aaaaaaaaaaaaa",
-      posisi: "bbbbbbb",
-    },
-    {
-      id: Math.random(),
-      name: "aaaaaaaaaaaaa",
-      posisi: "bbbbbbb",
-    },
-    {
-      id: Math.random(),
-      name: "aaaaaaaaaaaaa",
-      posisi: "bbbbbbb",
-    },
-    {
-      id: Math.random(),
-      name: "aaaaaaaaaaaaa",
-      posisi: "bbbbbbb",
-    },
-    {
-      id: Math.random(),
-      name: "aaaaaaaaaaaaa",
-      posisi: "bbbbbbb",
-    },
-    {
-      id: Math.random(),
-      name: "aaaaaaaaaaaaa",
-      posisi: "bbbbbbb",
-    },
-    {
-      id: Math.random(),
-      name: "aaaaaaaaaaaaa",
-      posisi: "bbbbbbb",
-    },
-    {
-      id: Math.random(),
-      name: "aaaaaaaaaaaaa",
-      posisi: "bbbbbbb",
-    },
-    {
-      id: Math.random(),
-      name: "aaaaaaaaaaaaa",
-      posisi: "bbbbbbb",
-    },
-    {
-      id: Math.random(),
-      name: "aaaaaaaaaaaaa",
-      posisi: "bbbbbbb",
-    },
-    {
-      id: Math.random(),
-      name: "aaaaaaaaaaaaa",
-      posisi: "bbbbbbb",
-    },
-    {
-      id: Math.random(),
-      name: "aaaaaaaaaaaaa",
-      posisi: "bbbbbbb",
-    },
-    {
-      id: Math.random(),
-      name: "aaaaaaaaaaaaa",
-      posisi: "bbbbbbb",
-    },
-    {
-      id: Math.random(),
-      name: "aaaaaaaaaaaaa",
-      posisi: "bbbbbbb",
-    },
-    {
-      id: Math.random(),
-      name: "aaaaaaaaaaaaa",
-      posisi: "bbbbbbb",
-    },
-    {
-      id: Math.random(),
-      name: "aaaaaaaaaaaaa",
-      posisi: "bbbbbbb",
-    },
-  ];
-  const [isCheck, setIsCheck] = useState(false);
+
+  const [isClick, setIsClick] = useState(false);
 
   function confirmChange(e, id, name) {
     e.preventDefault();
-    if (window.confirm(`Ganti ${name} sebagai PJ?`) === true) {
-      setIsCheck(false);
-      navigate("/");
-    } else {
-      return null;
-    }
+
+    setConfirm({
+      ...confirm,
+      text: `Ganti ${name} sebagai PJ?`,
+      isCheck: true,
+      funcYbutton: async () => {
+        setConfirm({
+          ...confirm,
+          text: `Ganti ${name} sebagai PJ?`,
+          titleYbutton: <Loading />,
+          isCheck: true,
+        });
+        try {
+          await axios.get(
+            `https://blue-green-llama-robe.cyclic.app/user/set-pj/${id}`,
+            {
+              headers: {
+                Authorization: Cookies.get("user"),
+              },
+            }
+          );
+          setIsClick(false);
+          setConfirm({ ...confirm, isCheck: false });
+          navigate("/");
+        } catch (error) {
+          setConfirm({
+            ...confirm,
+            text: `Ganti ${name} sebagai PJ?`,
+            isCheck: true,
+          });
+          setMsg(error.response.data.errors);
+        }
+      },
+    });
   }
   async function getDataSetPJ() {
     try {
@@ -159,8 +86,8 @@ export default function ModalChangePJ() {
       <input
         type="checkbox"
         id="modal_change_pj"
-        checked={isCheck}
-        onChange={() => setIsCheck(!isCheck)}
+        checked={isClick}
+        onChange={() => setIsClick(!isClick)}
         className="modal-toggle"
       />
       <div className="modal">
@@ -191,6 +118,13 @@ export default function ModalChangePJ() {
         <label className="modal-backdrop" htmlFor="modal_change_pj">
           Close
         </label>
+        <ConfirmSetPj
+          confirm={confirm}
+          setConfirm={setConfirm}
+          msg={msg}
+          setMsg={setMsg}
+          setIsClick={setIsClick}
+        />
       </div>
     </>
   );

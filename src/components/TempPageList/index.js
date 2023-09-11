@@ -3,7 +3,6 @@ import ParentComp from "../ParentComp";
 import ConfirmComp from "../ConfirmComp";
 import axios from "axios";
 import ModalComp from "../ModalComp";
-import { Link } from "react-router-dom";
 import AlertComp from "../AlertComp";
 import { useSelector } from "react-redux";
 
@@ -42,12 +41,6 @@ export default function TempPageList({ title, category, icon }) {
           token={token}
         />
       ),
-      isClick: true,
-    });
-  }
-  function clickUbah() {
-    setDataModal({
-      children: <ChildModalEdit data={data} />,
       isClick: true,
     });
   }
@@ -176,7 +169,7 @@ export default function TempPageList({ title, category, icon }) {
       dataFilter = await resData;
     } else {
       dataFilter = await resData.filter((list) => {
-        return list.status === JSON.parse(value);
+        return list.status === value;
       });
     }
 
@@ -264,8 +257,9 @@ export default function TempPageList({ title, category, icon }) {
             className="select select-sm select-bordered join-item lg:w-1/2 w-2/5"
           >
             <option value="Default">Filter status</option>
-            <option value="true">Sudah bayar</option>
-            <option value="false">Belum bayar</option>
+            <option value="sudah">Sudah bayar</option>
+            <option value="proses">Diproses</option>
+            <option value="belum">Belum bayar</option>
           </select>
         </div>
         {/* status */}
@@ -342,24 +336,6 @@ export default function TempPageList({ title, category, icon }) {
             </svg>
             Tambah
           </button>
-          {user.role !== "USER" ? (
-            <button
-              onClick={clickUbah}
-              className="btn btn-sm shadow-md text-xs"
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="h-4 w-4"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  fill="#888888"
-                  d="M5 19h1.4l8.625-8.625l-1.4-1.4L5 17.6V19ZM19.3 8.925l-4.25-4.2l1.4-1.4q.575-.575 1.413-.575t1.412.575l1.4 1.4q.575.575.6 1.388t-.55 1.387L19.3 8.925ZM17.85 10.4L7.25 21H3v-4.25l10.6-10.6l4.25 4.25Zm-3.525-.725l-.7-.7l1.4 1.4l-.7-.7Z"
-                />
-              </svg>
-              Ubah
-            </button>
-          ) : null}
         </div>
       </main>
       <ModalComp dataModal={dataModal} setDataModal={setDataModal} />
@@ -421,35 +397,6 @@ const ViewDataList = ({
 
     return viewData;
   }
-};
-
-const ChildModalEdit = ({ data }) => {
-  return (
-    <main className="modal-box">
-      <h3 className="font-bold text-lg">Pilih Pesanan</h3>
-      <section className="my-4">
-        <div className="grid grid-cols-2 gap-4 text-xs px-4 py-2 bg-gray-200 text-gray-500 rounded-t-lg">
-          <span className="text-center ">Nama</span>
-          <span className="text-center ">Pesanan</span>
-        </div>
-        <div className="max-h-96 overflow-auto">
-          <ul className="w-full rounded-b-lg">
-            {data.map((user) => (
-              <li key={user.id}>
-                <Link
-                  to={`/edit/${user.id}`}
-                  className="px-4 py-2 grid grid-cols-2 gap-4 border-b capitalize text-xs hover:bg-gray-100"
-                >
-                  <span className="">{user.name}</span>
-                  <span className="">{user.order}</span>
-                </Link>
-              </li>
-            ))}
-          </ul>
-        </div>
-      </section>
-    </main>
-  );
 };
 
 const ChildModalTambah = ({
