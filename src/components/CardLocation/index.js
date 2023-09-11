@@ -7,7 +7,7 @@ export default function CardLocation({ lokasi }) {
       <iframe
         src={lokasi.embed}
         title="Lontong"
-        className="rounded-xl mx-auto w-full"
+        className="rounded-xl mx-auto w-full border-2 border-kuarteneri"
         loading="lazy"
       ></iframe>
       <div className="grid lg:grid-cols-1 grid-cols-2 gap-4 mt-5 mx-auto">
@@ -18,7 +18,7 @@ export default function CardLocation({ lokasi }) {
         <div className="flex justify-end items-end">
           <Link
             to={lokasi.link}
-            className="btn btn-sm capitalize text-white font-semibold bg-green-400 rounded-lg shadow-md hover:shadow-lg transition duration-500 transform-gpu hover:scale-110 "
+            className="btn btn-sm capitalize text-tPrimary font-semibold bg-secondary rounded-lg shadow-md hover:shadow-lg transition duration-500 transform-gpu hover:scale-110 "
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"

@@ -14,7 +14,12 @@ export default function ModalComp({ dataModal, setDataModal }) {
       />
       <div className="modal">
         {dataModal.children}
-        <label className="modal-backdrop" htmlFor="my_modal_3">
+        <label
+          className="modal-backdrop"
+          onClick={() =>
+            setDataModal({ ...dataModal, isClick: !dataModal.isClick })
+          }
+        >
           Close
         </label>
       </div>

@@ -44,6 +44,35 @@ export default function TempPageList({ title, category, icon }) {
       isClick: true,
     });
   }
+  function clickHapusAll() {
+    const dataConfirm = {
+      title: `Hapus semua`,
+      text: `Hapus semua list ${category}?`,
+      titleNbutton: "Batal",
+      titleYbutton: "Hapus",
+      isCheck: true,
+    };
+    setConfirm({
+      ...dataConfirm,
+      funcYbutton: async () => {
+        setConfirm({ ...dataConfirm, titleYbutton: <Loading /> });
+        try {
+          await axios.delete(
+            "https://blue-green-llama-robe.cyclic.app/order/delete-all",
+            {
+              headers: {
+                Authorization: token,
+              },
+            }
+          );
+          getAll(false);
+          setConfirm((confirm) => ({ ...confirm, isCheck: false }));
+        } catch (error) {
+          console.log(error);
+        }
+      },
+    });
+  }
   function clickBelum(name, id) {
     const dataConfirm = {
       title: "Konfirmasi Pembayaran",
@@ -243,7 +272,7 @@ export default function TempPageList({ title, category, icon }) {
         <div className="font-serif text-xl flex justify-center">
           List {title} Hari Ini {icon}
         </div>
-        <hr className="h-1 mx-auto bg-gray-400 border-0 rounded my-3" />
+        <hr className="h-1 mx-auto bg-primary border-0 rounded my-3" />
         {/* search */}
         <div className="join w-full border mx-auto mt-5">
           <input
@@ -281,7 +310,7 @@ export default function TempPageList({ title, category, icon }) {
         <div className="overflow-x-auto mx-auto w-full rounded-lg">
           <table className="table table-sm">
             <thead>
-              <tr className="bg-gray-300 text-center text-xs">
+              <tr className="bg-tertiary text-center text-xs text-black">
                 {user.role !== "USER" ? <th>Status</th> : null}
                 <th>#</th>
                 <th>Nama</th>
@@ -308,7 +337,7 @@ export default function TempPageList({ title, category, icon }) {
                   user={user}
                 />
               )}
-              <tr className="bg-gray-300">
+              <tr className="bg-tertiary">
                 <td
                   className="text-center text-xs"
                   colSpan={user.role !== "USER" ? "5" : "4"}
@@ -325,17 +354,32 @@ export default function TempPageList({ title, category, icon }) {
         <div className="flex items-center justify-between mt-5">
           <button
             onClick={clickTambah}
-            className="btn btn-sm shadow-md text-xs"
+            className="btn btn-sm capitalize bg-secondary text-tPrimary text-xs shadow-md"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              className="h-4 w-4"
+              className="h-5 w-5 fill-current"
               viewBox="0 0 24 24"
             >
-              <path fill="#888888" d="M11 13H5v-2h6V5h2v6h6v2h-6v6h-2v-6Z" />
+              <path d="M11 13H5v-2h6V5h2v6h6v2h-6v6h-2v-6Z" />
             </svg>
             Tambah
           </button>
+          {user.role !== "USER" ? (
+            <button
+              onClick={clickHapusAll}
+              className="btn btn-sm capitalize bg-secondary text-tPrimary text-xs shadow-md"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-5 w-5 fill-current"
+                viewBox="0 0 24 24"
+              >
+                <path d="M5 21V6H4V4h5V3h6v1h5v2h-1v15H5Zm2-2h10V6H7v13Zm2-2h2V8H9v9Zm4 0h2V8h-2v9ZM7 6v13V6Z" />
+              </svg>
+              Hapus Semua
+            </button>
+          ) : null}
         </div>
       </main>
       <ModalComp dataModal={dataModal} setDataModal={setDataModal} />
@@ -481,7 +525,7 @@ const ChildModalTambah = ({
             <span className="label-text">Harga pesanan</span>
           </label>
           <label className="input-group">
-            <span>Rp.</span>
+            <span className="text-sm bg-secondary text-tPrimary">Rp.</span>
             <input
               type="number"
               placeholder="contoh: 8000"
@@ -499,7 +543,7 @@ const ChildModalTambah = ({
             <span className="label-text">Uang diberikan</span>
           </label>
           <label className="input-group">
-            <span>Rp.</span>
+            <span className="text-sm bg-secondary text-tPrimary">Rp.</span>
             <input
               type="number"
               placeholder="contoh: 10000"
@@ -514,32 +558,33 @@ const ChildModalTambah = ({
         </div>
       </div>
       <div className="flex justify-between mt-8">
-        <button onClick={clickBatal} className="btn btn-md shadow-md text-xs">
+        <button
+          onClick={clickBatal}
+          type="button"
+          className="btn btn-sm capitalize bg-secondary text-tPrimary shadow-md text-xs"
+        >
           <svg
             xmlns="http://www.w3.org/2000/svg"
-            className="h-5 w-5 text-xs"
+            className="h-5 w-5 fill-current"
             viewBox="0 0 24 24"
           >
-            <path
-              fill="#888888"
-              d="m12 13.4l2.9 2.9q.275.275.7.275t.7-.275q.275-.275.275-.7t-.275-.7L13.4 12l2.9-2.9q.275-.275.275-.7t-.275-.7q-.275-.275-.7-.275t-.7.275L12 10.6L9.1 7.7q-.275-.275-.7-.275t-.7.275q-.275.275-.275.7t.275.7l2.9 2.9l-2.9 2.9q-.275.275-.275.7t.275.7q.275.275.7.275t.7-.275l2.9-2.9Zm0 8.6q-2.075 0-3.9-.788t-3.175-2.137q-1.35-1.35-2.137-3.175T2 12q0-2.075.788-3.9t2.137-3.175q1.35-1.35 3.175-2.137T12 2q2.075 0 3.9.788t3.175 2.137q1.35 1.35 2.138 3.175T22 12q0 2.075-.788 3.9t-2.137 3.175q-1.35 1.35-3.175 2.138T12 22Zm0-2q3.35 0 5.675-2.325T20 12q0-3.35-2.325-5.675T12 4Q8.65 4 6.325 6.325T4 12q0 3.35 2.325 5.675T12 20Zm0-8Z"
-            />
+            <path d="m12 13.4l2.9 2.9q.275.275.7.275t.7-.275q.275-.275.275-.7t-.275-.7L13.4 12l2.9-2.9q.275-.275.275-.7t-.275-.7q-.275-.275-.7-.275t-.7.275L12 10.6L9.1 7.7q-.275-.275-.7-.275t-.7.275q-.275.275-.275.7t.275.7l2.9 2.9l-2.9 2.9q-.275.275-.275.7t.275.7q.275.275.7.275t.7-.275l2.9-2.9Zm0 8.6q-2.075 0-3.9-.788t-3.175-2.137q-1.35-1.35-2.137-3.175T2 12q0-2.075.788-3.9t2.137-3.175q1.35-1.35 3.175-2.137T12 2q2.075 0 3.9.788t3.175 2.137q1.35 1.35 2.138 3.175T22 12q0 2.075-.788 3.9t-2.137 3.175q-1.35 1.35-3.175 2.138T12 22Zm0-2q3.35 0 5.675-2.325T20 12q0-3.35-2.325-5.675T12 4Q8.65 4 6.325 6.325T4 12q0 3.35 2.325 5.675T12 20Zm0-8Z" />
           </svg>
           Batal
         </button>
-        <button className="btn btn-md shadow-md text-xs" type="submit">
+        <button
+          className="btn btn-sm capitalize bg-secondary text-tPrimary shadow-md text-xs"
+          type="submit"
+        >
           {isLoading ? (
             <Loading />
           ) : (
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              className="h-5 w-5 text-xs"
+              className="h-5 w-5 fill-current"
               viewBox="0 0 24 24"
             >
-              <path
-                fill="#888888"
-                d="M21 7v12q0 .825-.588 1.413T19 21H5q-.825 0-1.413-.588T3 19V5q0-.825.588-1.413T5 3h12l4 4Zm-9 11q1.25 0 2.125-.875T15 15q0-1.25-.875-2.125T12 12q-1.25 0-2.125.875T9 15q0 1.25.875 2.125T12 18Zm-6-8h9V6H6v4Z"
-              />
+              <path d="M21 7v12q0 .825-.588 1.413T19 21H5q-.825 0-1.413-.588T3 19V5q0-.825.588-1.413T5 3h12l4 4Zm-9 11q1.25 0 2.125-.875T15 15q0-1.25-.875-2.125T12 12q-1.25 0-2.125.875T9 15q0 1.25.875 2.125T12 18Zm-6-8h9V6H6v4Z" />
             </svg>
           )}
           Simpan
@@ -563,7 +608,7 @@ const ButtonStatus = ({ clickBelum, clickHapus, clickProses, list }) => {
     return (
       <button
         onClick={() => clickProses(list.name, list.id)}
-        className="cursor-pointer mx-auto flex justify-center items-center w-11/12 bg-blue-500 hover:bg-blue-700 text-white font-bold py-1.5 px-4 rounded-full"
+        className="cursor-pointer mx-auto flex justify-center items-center w-11/12 bg-blue-500 hover:bg-blue-700 text-white font-medium py-1.5 px-4 rounded-full"
       >
         <span className="h-5 text-xs">Proses</span>
       </button>
@@ -572,11 +617,11 @@ const ButtonStatus = ({ clickBelum, clickHapus, clickProses, list }) => {
     return (
       <button
         onClick={() => clickHapus(list.name, list.id)}
-        className="cursor-pointer mx-auto flex justify-center items-center w-11/12 bg-gray-100 hover:bg-gray-200 text-gray-600 font-bold py-1.5 px-4 rounded-full"
+        className="cursor-pointer mx-auto flex justify-center items-center w-11/12 bg-white hover:bg-kuarteneri font-medium py-1.5 px-4 rounded-full"
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
-          className="h-5 w-5 fill-current text-center"
+          className="h-4 w-4 fill-current text-center"
           viewBox="0 0 24 24"
         >
           <path d="M5 21V6H4V4h5V3h6v1h5v2h-1v15H5Zm2-2h10V6H7v13Zm2-2h2V8H9v9Zm4 0h2V8h-2v9ZM7 6v13V6Z" />

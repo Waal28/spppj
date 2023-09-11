@@ -29,13 +29,13 @@ export default function ConfirmSetPj({
           <div className="my-4 text-justify">{confirm.text}</div>
           <div className="flex justify-around items-center mt-6">
             <button
-              className="btn btn-sm bg-gray-200 hover:bg-gray-300 capitalize"
+              className="btn btn-sm bg-secondary text-tPrimary capitalize"
               onClick={clickBatal}
             >
               {confirm.titleNbutton}
             </button>
             <button
-              className="btn btn-sm bg-green-500 hover:bg-green-600 text-white capitalize"
+              className="btn btn-sm bg-secondary text-tPrimary capitalize"
               onClick={confirm.funcYbutton}
             >
               {confirm.titleYbutton}

@@ -12,4 +12,15 @@ module.exports = {
     prefix: "", // prefix for daisyUI classnames (components, modifiers and responsive class names. Not colors)
     logs: true, // Shows info about daisyUI version and used config in the console when building your CSS
   },
+  theme: {
+    extend: {
+      colors: {
+        primary: "#65451F",
+        secondary: "#765827",
+        tertiary: "#C8AE7D",
+        kuarteneri: "#EAC696",
+        tPrimary: "#FFFFFF",
+      },
+    },
+  },
 };

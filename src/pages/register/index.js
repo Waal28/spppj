@@ -33,7 +33,7 @@ export default function RegisterComp() {
     }
   }
   return (
-    <div className="hero min-h-screen bg-gray-400">
+    <div className="hero min-h-screen bg-primary">
       <div className="hero-content flex-col lg:flex-row-reverse">
         <div className="text-center lg:text-left">
           <h1 className="text-5xl font-bold">Register SPPPJ!</h1>
@@ -41,7 +41,7 @@ export default function RegisterComp() {
             Sistem Pemesanan dan Penentuan Penanggung Jawab
           </p>
         </div>
-        <div className="card flex-shrink-0 w-full max-w-sm shadow-2xl bg-gray-400">
+        <div className="card flex-shrink-0 w-full max-w-sm shadow-2xl bg-primary">
           <form onSubmit={register} className="card-body">
             <div className="form-control">
               <label className="label">

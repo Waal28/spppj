@@ -94,7 +94,7 @@ export default function ModalChangePJ() {
         <main className="modal-box">
           <h3 className="font-bold text-lg">Pilih Pengganti</h3>
           <section className="my-4">
-            <div className="grid grid-cols-2 gap-4 text-xs px-4 py-2 bg-gray-200 text-gray-500 rounded-t-lg">
+            <div className="grid grid-cols-2 gap-4 text-xs px-4 py-2 bg-kuarteneri font-medium rounded-t-lg">
               <span className="text-center ">Nama</span>
               <span className="text-center ">Posisi</span>
             </div>
