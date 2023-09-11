@@ -12,9 +12,121 @@ export default function ModalChangePJ() {
       posisi: <Loading />,
     },
   ]);
+  const babi = [
+    {
+      id: Math.random(),
+      name: "aaaaaaaaaaaaa",
+      posisi: "bbbbbbb",
+    },
+    {
+      id: Math.random(),
+      name: "aaaaaaaaaaaaa",
+      posisi: "bbbbbbb",
+    },
+    {
+      id: Math.random(),
+      name: "aaaaaaaaaaaaa",
+      posisi: "bbbbbbb",
+    },
+    {
+      id: Math.random(),
+      name: "aaaaaaaaaaaaa",
+      posisi: "bbbbbbb",
+    },
+    {
+      id: Math.random(),
+      name: "aaaaaaaaaaaaa",
+      posisi: "bbbbbbb",
+    },
+    {
+      id: Math.random(),
+      name: "aaaaaaaaaaaaa",
+      posisi: "bbbbbbb",
+    },
+    {
+      id: Math.random(),
+      name: "aaaaaaaaaaaaa",
+      posisi: "bbbbbbb",
+    },
+    {
+      id: Math.random(),
+      name: "aaaaaaaaaaaaa",
+      posisi: "bbbbbbb",
+    },
+    {
+      id: Math.random(),
+      name: "aaaaaaaaaaaaa",
+      posisi: "bbbbbbb",
+    },
+    {
+      id: Math.random(),
+      name: "aaaaaaaaaaaaa",
+      posisi: "bbbbbbb",
+    },
+    {
+      id: Math.random(),
+      name: "aaaaaaaaaaaaa",
+      posisi: "bbbbbbb",
+    },
+    {
+      id: Math.random(),
+      name: "aaaaaaaaaaaaa",
+      posisi: "bbbbbbb",
+    },
+    {
+      id: Math.random(),
+      name: "aaaaaaaaaaaaa",
+      posisi: "bbbbbbb",
+    },
+    {
+      id: Math.random(),
+      name: "aaaaaaaaaaaaa",
+      posisi: "bbbbbbb",
+    },
+    {
+      id: Math.random(),
+      name: "aaaaaaaaaaaaa",
+      posisi: "bbbbbbb",
+    },
+    {
+      id: Math.random(),
+      name: "aaaaaaaaaaaaa",
+      posisi: "bbbbbbb",
+    },
+    {
+      id: Math.random(),
+      name: "aaaaaaaaaaaaa",
+      posisi: "bbbbbbb",
+    },
+    {
+      id: Math.random(),
+      name: "aaaaaaaaaaaaa",
+      posisi: "bbbbbbb",
+    },
+    {
+      id: Math.random(),
+      name: "aaaaaaaaaaaaa",
+      posisi: "bbbbbbb",
+    },
+    {
+      id: Math.random(),
+      name: "aaaaaaaaaaaaa",
+      posisi: "bbbbbbb",
+    },
+    {
+      id: Math.random(),
+      name: "aaaaaaaaaaaaa",
+      posisi: "bbbbbbb",
+    },
+    {
+      id: Math.random(),
+      name: "aaaaaaaaaaaaa",
+      posisi: "bbbbbbb",
+    },
+  ];
   const [isCheck, setIsCheck] = useState(false);
 
-  function confirmChange(e, name) {
+  function confirmChange(e, id, name) {
     e.preventDefault();
     if (window.confirm(`Ganti ${name} sebagai PJ?`) === true) {
       setIsCheck(false);
@@ -52,30 +164,29 @@ export default function ModalChangePJ() {
         className="modal-toggle"
       />
       <div className="modal">
-        <main className="overflow-x-auto modal-box pt-0">
-          <h3 className="font-bold text-lg my-3">Pilih Pengganti</h3>
-          <table className="table table-xs table-pin-rows table-pin-cols border">
-            <thead>
-              <tr>
-                <th className="bg-gray-200">#</th>
-                <th className="bg-gray-200 text-center">Nama</th>
-                <th className="bg-gray-200 text-center">Posisi</th>
-              </tr>
-            </thead>
-            <tbody>
-              {data.map((d, index) => (
-                <tr
-                  key={d.id}
-                  className="hover:bg-gray-100"
-                  onClick={(e) => confirmChange(e, d.name)}
-                >
-                  <td className="font-bold">{index + 1}</td>
-                  <td className="capitalize">{d.name}</td>
-                  <td className="capitalize text-center">{d.posisi}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+        <main className="modal-box">
+          <h3 className="font-bold text-lg">Pilih Pengganti</h3>
+          <section className="my-4">
+            <div className="grid grid-cols-2 gap-4 text-xs px-4 py-2 bg-gray-200 text-gray-500 rounded-t-lg">
+              <span className="text-center ">Nama</span>
+              <span className="text-center ">Posisi</span>
+            </div>
+            <div className="max-h-96 overflow-auto">
+              <ul className="w-full rounded-b-lg">
+                {data.map((user) => (
+                  <li key={user.id}>
+                    <div
+                      onClick={(e) => confirmChange(e, user.id, user.name)}
+                      className="px-4 py-2 grid grid-cols-2 gap-4 border-b capitalize text-xs hover:bg-gray-100"
+                    >
+                      <span className="">{user.name}</span>
+                      <span className="">{user.posisi}</span>
+                    </div>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </section>
         </main>
         <label className="modal-backdrop" htmlFor="modal_change_pj">
           Close

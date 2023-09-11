@@ -2,9 +2,10 @@ import React, { useEffect, useState } from "react";
 import ParentComp from "../../components/ParentComp";
 import CardLocation from "../../components/CardLocation";
 import axios from "axios";
-import Cookies from "js-cookie";
+import { useSelector } from "react-redux";
 
 export default function Dashboard() {
+  const token = useSelector((state) => state.myReducer.token);
   const [pjSarapan, setPjSarapan] = useState([
     { id: 1, name: <Loading /> },
     { id: 2, name: <Loading /> },
@@ -83,7 +84,7 @@ export default function Dashboard() {
     axios
       .get("https://blue-green-llama-robe.cyclic.app/user/getAllPJ", {
         headers: {
-          Authorization: Cookies.get("user"),
+          Authorization: token,
         },
       })
       .then(function (res) {
@@ -96,8 +97,11 @@ export default function Dashboard() {
       });
   }
   useEffect(() => {
-    getDataPJ();
-  }, []);
+    if (token) {
+      getDataPJ();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [token]);
   return (
     <ParentComp>
       <main className="lg:w-1/2 md:w-1/2 sm:w-3/4 w-full p-4 mx-auto">
@@ -138,7 +142,7 @@ export default function Dashboard() {
           </div>
         </div>
         <section className="mt-10">
-          <h1 className="text-center font-serif text-xl">Lokasi</h1>
+          <h1 className="text-center font-serif text-xl">Lokasi Makanan</h1>
           <hr className="h-1 mx-auto bg-gray-400 border-0 rounded my-3" />
           <div className="grid lg:grid-cols-2 grid-cols-1 mx-auto gap-4">
             {lokasi.map((lok) => (

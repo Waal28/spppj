@@ -1,16 +1,34 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import AvatarComp from "../Avatar";
-import jwtDecode from "jwt-decode";
 import Cookies from "js-cookie";
+import ConfirmComp from "../ConfirmComp";
+import { useSelector } from "react-redux";
 
 export default function NavComp() {
-  const user = jwtDecode(Cookies.get("user"));
+  const user = useSelector((state) => state.myReducer.user);
   const navigate = useNavigate();
+  const [confirm, setConfirm] = useState({
+    title: "",
+    text: "",
+    titleNbutton: "",
+    titleYbutton: "",
+    isCheck: false,
+    funcYbutton: () => {},
+  });
 
   function logout() {
-    Cookies.remove("user");
-    navigate("/login");
+    setConfirm({
+      title: "Logout",
+      text: "Yakin keluar aplikasi? Anda harus login ulang!",
+      titleNbutton: "Batal",
+      titleYbutton: "Yakin",
+      isCheck: true,
+      funcYbutton: () => {
+        Cookies.remove("user");
+        navigate("/login");
+      },
+    });
   }
   return (
     <div className="navbar bg-gray-400">
@@ -101,6 +119,7 @@ export default function NavComp() {
       <div className="navbar-end">
         <AvatarComp />
       </div>
+      <ConfirmComp confirm={confirm} setConfirm={setConfirm} />
     </div>
   );
 }

@@ -1,13 +1,16 @@
 import React, { useEffect, useState } from "react";
 import ParentComp from "../ParentComp";
-import ModalComp from "../ModalComp";
 import ConfirmComp from "../ConfirmComp";
 import axios from "axios";
-import Cookies from "js-cookie";
-import jwtDecode from "jwt-decode";
+import ModalComp from "../ModalComp";
+import { Link } from "react-router-dom";
+import AlertComp from "../AlertComp";
+import { useSelector } from "react-redux";
 
 export default function TempPageList({ title, category, icon }) {
-  const user = jwtDecode(Cookies.get("user"));
+  const user = useSelector((state) => state.myReducer.user);
+  const token = useSelector((state) => state.myReducer.token);
+
   const [confirm, setConfirm] = useState({
     title: "",
     text: "",
@@ -16,14 +19,40 @@ export default function TempPageList({ title, category, icon }) {
     isCheck: false,
     funcYbutton: () => {},
   });
+
   const [isLoading, setIsLoading] = useState(true);
   const [data, setData] = useState([]);
-
+  const [dataModal, setDataModal] = useState({
+    children: null,
+    isClick: false,
+  });
   const [totalUang, setTotalUang] = useState(0);
   const [totalKembalian, setTotalKembalian] = useState(0);
 
-  function clickBelum(name) {
-    setConfirm({
+  function clickTambah() {
+    setDataModal({
+      children: (
+        <ChildModalTambah
+          title={title}
+          category={category}
+          dataModal={dataModal}
+          setDataModal={setDataModal}
+          getAll={getAll}
+          user={user}
+          token={token}
+        />
+      ),
+      isClick: true,
+    });
+  }
+  function clickUbah() {
+    setDataModal({
+      children: <ChildModalEdit data={data} />,
+      isClick: true,
+    });
+  }
+  function clickBelum(name, id) {
+    const dataConfirm = {
       title: "Konfirmasi Pembayaran",
       text: (
         <p>
@@ -34,14 +63,72 @@ export default function TempPageList({ title, category, icon }) {
       titleNbutton: "Belum",
       titleYbutton: "Sudah",
       isCheck: true,
-      funcYbutton: () => {
-        setConfirm((confirm) => ({ ...confirm, isCheck: false }));
-        alert("ok");
+    };
+    setConfirm({
+      ...dataConfirm,
+      funcYbutton: async () => {
+        setConfirm({ ...dataConfirm, titleYbutton: <Loading /> });
+        try {
+          await axios.put(
+            "https://blue-green-llama-robe.cyclic.app/order/set-bayar",
+            {
+              id,
+              status: "proses",
+            },
+            {
+              headers: {
+                Authorization: token,
+              },
+            }
+          );
+          getAll(false);
+          setConfirm((confirm) => ({ ...confirm, isCheck: false }));
+        } catch (error) {
+          console.log(error);
+        }
       },
     });
   }
-  function clickHapus(name) {
+  function clickProses(name, id) {
+    const dataConfirm = {
+      title: "Konfirmasi Pesanan",
+      text: (
+        <p>
+          Apakah <span className="font-medium capitalize">{name}</span> sudah
+          menerima pesanan?
+        </p>
+      ),
+      titleNbutton: "Belum",
+      titleYbutton: "Sudah",
+      isCheck: true,
+    };
     setConfirm({
+      ...dataConfirm,
+      funcYbutton: async () => {
+        setConfirm({ ...dataConfirm, titleYbutton: <Loading /> });
+        try {
+          await axios.put(
+            "https://blue-green-llama-robe.cyclic.app/order/set-bayar",
+            {
+              id,
+              status: "sudah",
+            },
+            {
+              headers: {
+                Authorization: token,
+              },
+            }
+          );
+          getAll(false);
+          setConfirm((confirm) => ({ ...confirm, isCheck: false }));
+        } catch (error) {
+          console.log(error);
+        }
+      },
+    });
+  }
+  function clickHapus(name, id) {
+    const dataConfirm = {
       title: "Hapus Pesanan",
       text: (
         <p>
@@ -51,9 +138,25 @@ export default function TempPageList({ title, category, icon }) {
       titleNbutton: "Batal",
       titleYbutton: "Hapus",
       isCheck: true,
-      funcYbutton: () => {
-        setConfirm((confirm) => ({ ...confirm, isCheck: false }));
-        alert("ok");
+    };
+    setConfirm({
+      ...dataConfirm,
+      funcYbutton: async () => {
+        setConfirm({ ...dataConfirm, titleYbutton: <Loading /> });
+        try {
+          await axios.delete(
+            `https://blue-green-llama-robe.cyclic.app/order/delete-one/${id}`,
+            {
+              headers: {
+                Authorization: token,
+              },
+            }
+          );
+          getAll(false);
+          setConfirm((confirm) => ({ ...confirm, isCheck: false }));
+        } catch (error) {
+          console.log(error);
+        }
       },
     });
   }
@@ -116,7 +219,7 @@ export default function TempPageList({ title, category, icon }) {
         `https://blue-green-llama-robe.cyclic.app/order/getAll/${category}`,
         {
           headers: {
-            Authorization: Cookies.get("user"),
+            Authorization: token,
           },
         }
       );
@@ -131,15 +234,16 @@ export default function TempPageList({ title, category, icon }) {
 
       return { resData, total_uang, total_kembalian };
     } catch (error) {
-      console.log(error);
+      console.log(error.response.data.errors);
     }
   }
 
   useEffect(() => {
-    getAll(false);
-
+    if (token) {
+      getAll(false);
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [token]);
   return (
     <ParentComp>
       <main className="lg:w-1/2 md:w-1/2 sm:w-3/4 w-full p-4 mx-auto">
@@ -165,14 +269,18 @@ export default function TempPageList({ title, category, icon }) {
           </select>
         </div>
         {/* status */}
-        <div className="grid grid-cols-2 gap 2 text-xs mt-3">
-          <section className="flex items-center">
+        <div className="grid grid-cols-3 gap 2 text-xs m-3">
+          <section className="flex items-center justify-start">
+            <div className="rounded-full me-2 h-3 w-3 bg-red-200 shadow"></div>
+            belum bayar
+          </section>
+          <section className="flex items-center justify-center">
+            <div className="rounded-full me-2 h-3 w-3 bg-blue-200 shadow"></div>
+            diproses
+          </section>
+          <section className="flex items-center justify-end">
             <div className="rounded-full me-2 h-3 w-3 bg-green-200 shadow"></div>
             sudah bayar
-          </section>
-          <section className="flex items-center">
-            <div className="rounded-full m-2 h-3 w-3 bg-red-200 shadow"></div>
-            belum bayar
           </section>
         </div>
         {/* table */}
@@ -202,6 +310,7 @@ export default function TempPageList({ title, category, icon }) {
                   formatCurrency={formatCurrency}
                   clickBelum={clickBelum}
                   clickHapus={clickHapus}
+                  clickProses={clickProses}
                   user={user}
                 />
               )}
@@ -219,8 +328,11 @@ export default function TempPageList({ title, category, icon }) {
           </table>
         </div>
         {/* add button */}
-        <div className="flex items-end mt-3">
-          <label htmlFor="my_modal_1" className="btn btn-sm shadow-md text-xs">
+        <div className="flex items-center justify-between mt-5">
+          <button
+            onClick={clickTambah}
+            className="btn btn-sm shadow-md text-xs"
+          >
             <svg
               xmlns="http://www.w3.org/2000/svg"
               className="h-4 w-4"
@@ -229,10 +341,28 @@ export default function TempPageList({ title, category, icon }) {
               <path fill="#888888" d="M11 13H5v-2h6V5h2v6h6v2h-6v6h-2v-6Z" />
             </svg>
             Tambah
-          </label>
+          </button>
+          {user.role !== "USER" ? (
+            <button
+              onClick={clickUbah}
+              className="btn btn-sm shadow-md text-xs"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-4 w-4"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  fill="#888888"
+                  d="M5 19h1.4l8.625-8.625l-1.4-1.4L5 17.6V19ZM19.3 8.925l-4.25-4.2l1.4-1.4q.575-.575 1.413-.575t1.412.575l1.4 1.4q.575.575.6 1.388t-.55 1.387L19.3 8.925ZM17.85 10.4L7.25 21H3v-4.25l10.6-10.6l4.25 4.25Zm-3.525-.725l-.7-.7l1.4 1.4l-.7-.7Z"
+                />
+              </svg>
+              Ubah
+            </button>
+          ) : null}
         </div>
       </main>
-      <ModalComp title={title} category={category} />
+      <ModalComp dataModal={dataModal} setDataModal={setDataModal} />
       <ConfirmComp confirm={confirm} setConfirm={setConfirm} />
     </ParentComp>
   );
@@ -247,8 +377,15 @@ const ViewDataList = ({
   formatCurrency,
   clickBelum,
   clickHapus,
+  clickProses,
   user,
 }) => {
+  const bgClass = {
+    belum: "bg-red-200 capitalize",
+    proses: "bg-blue-200 capitalize",
+    sudah: "bg-green-200 capitalize",
+  };
+
   if (data.length < 1) {
     return (
       <tr>
@@ -262,35 +399,15 @@ const ViewDataList = ({
     );
   } else {
     const viewData = data.map((list, index) => (
-      <tr
-        key={list.id}
-        className={
-          list.status ? "bg-green-200 capitalize" : "bg-red-200 capitalize"
-        }
-      >
+      <tr key={list.id} className={bgClass[list.status]}>
         {user.role !== "USER" ? (
           <td className="p-2 border-e border-white">
-            {list.status ? (
-              <button
-                onClick={() => clickHapus(list.name)}
-                className="cursor-pointer mx-auto flex justify-center items-center w-11/12 bg-gray-100 hover:bg-gray-200 text-gray-600 font-bold py-1.5 px-4 rounded-full"
-              >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="h-5 w-5 fill-current text-center"
-                  viewBox="0 0 24 24"
-                >
-                  <path d="M5 21V6H4V4h5V3h6v1h5v2h-1v15H5Zm2-2h10V6H7v13Zm2-2h2V8H9v9Zm4 0h2V8h-2v9ZM7 6v13V6Z" />
-                </svg>
-              </button>
-            ) : (
-              <button
-                onClick={() => clickBelum(list.name)}
-                className="cursor-pointer mx-auto flex justify-center items-center w-11/12 bg-red-500 hover:bg-red-700 text-white font-bold py-1.5 px-4 rounded-full"
-              >
-                <span className="h-5">Belum</span>
-              </button>
-            )}
+            <ButtonStatus
+              clickBelum={clickBelum}
+              clickHapus={clickHapus}
+              clickProses={clickProses}
+              list={list}
+            />
           </td>
         ) : null}
         <th className="text-xs">{index + 1}</th>
@@ -303,5 +420,221 @@ const ViewDataList = ({
     ));
 
     return viewData;
+  }
+};
+
+const ChildModalEdit = ({ data }) => {
+  return (
+    <main className="modal-box">
+      <h3 className="font-bold text-lg">Pilih Pesanan</h3>
+      <section className="my-4">
+        <div className="grid grid-cols-2 gap-4 text-xs px-4 py-2 bg-gray-200 text-gray-500 rounded-t-lg">
+          <span className="text-center ">Nama</span>
+          <span className="text-center ">Pesanan</span>
+        </div>
+        <div className="max-h-96 overflow-auto">
+          <ul className="w-full rounded-b-lg">
+            {data.map((user) => (
+              <li key={user.id}>
+                <Link
+                  to={`/edit/${user.id}`}
+                  className="px-4 py-2 grid grid-cols-2 gap-4 border-b capitalize text-xs hover:bg-gray-100"
+                >
+                  <span className="">{user.name}</span>
+                  <span className="">{user.order}</span>
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </section>
+    </main>
+  );
+};
+
+const ChildModalTambah = ({
+  title,
+  category,
+  dataModal,
+  setDataModal,
+  getAll,
+  user,
+  token,
+}) => {
+  const [isLoading, setIsLoading] = useState(false);
+  const [msg, setMsg] = useState(false);
+  const name = user.name;
+  const [formData, setFormData] = useState({
+    name: name,
+    order: "",
+    price: "",
+    pay: "",
+    status: "belum",
+    category: category,
+  });
+
+  async function handleSubmit(e) {
+    setIsLoading(true);
+    e.preventDefault();
+    try {
+      await axios.post(
+        `https://blue-green-llama-robe.cyclic.app/order/create/${category}`,
+        formData,
+        {
+          headers: {
+            Authorization: token,
+          },
+        }
+      );
+      getAll(false);
+      setFormData({
+        ...formData,
+        order: "",
+        price: "",
+        pay: "",
+      });
+      setIsLoading(false);
+      setDataModal({ children: null, isClick: false });
+    } catch (error) {
+      setMsg(error.response.data.errors);
+      setIsLoading(false);
+    }
+  }
+  const clickBatal = () => {
+    setFormData({
+      ...formData,
+      order: "",
+      price: "",
+      pay: "",
+    });
+    setMsg(false);
+    setDataModal({ ...dataModal, isClick: false });
+  };
+  return (
+    <form onSubmit={handleSubmit} className="modal-box">
+      <h3 className="font-bold text-lg capitalize">Pesan {title}</h3>
+      {msg && <AlertComp msg={msg} setMsg={setMsg} />}
+      <div>
+        <div className="form-control w-full">
+          <label className="label">
+            <span className="label-text">Pesanan</span>
+          </label>
+          <textarea
+            value={formData.order}
+            required
+            onChange={(e) =>
+              setFormData({ ...formData, order: e.target.value })
+            }
+            className="textarea textarea-bordered"
+            placeholder="contoh: batagor, balsem"
+          ></textarea>
+        </div>
+        <div className="form-control col-span-2">
+          <label className="label">
+            <span className="label-text">Harga pesanan</span>
+          </label>
+          <label className="input-group">
+            <span>Rp.</span>
+            <input
+              type="number"
+              placeholder="contoh: 8000"
+              value={formData.price}
+              required
+              onChange={(e) =>
+                setFormData({ ...formData, price: e.target.value })
+              }
+              className="input input-md input-bordered w-full"
+            />
+          </label>
+        </div>
+        <div className="form-control w-full">
+          <label className="label">
+            <span className="label-text">Uang diberikan</span>
+          </label>
+          <label className="input-group">
+            <span>Rp.</span>
+            <input
+              type="number"
+              placeholder="contoh: 10000"
+              value={formData.pay}
+              required
+              onChange={(e) =>
+                setFormData({ ...formData, pay: e.target.value })
+              }
+              className="input input-md input-bordered w-full"
+            />
+          </label>
+        </div>
+      </div>
+      <div className="flex justify-between mt-8">
+        <button onClick={clickBatal} className="btn btn-md shadow-md text-xs">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            className="h-5 w-5 text-xs"
+            viewBox="0 0 24 24"
+          >
+            <path
+              fill="#888888"
+              d="m12 13.4l2.9 2.9q.275.275.7.275t.7-.275q.275-.275.275-.7t-.275-.7L13.4 12l2.9-2.9q.275-.275.275-.7t-.275-.7q-.275-.275-.7-.275t-.7.275L12 10.6L9.1 7.7q-.275-.275-.7-.275t-.7.275q-.275.275-.275.7t.275.7l2.9 2.9l-2.9 2.9q-.275.275-.275.7t.275.7q.275.275.7.275t.7-.275l2.9-2.9Zm0 8.6q-2.075 0-3.9-.788t-3.175-2.137q-1.35-1.35-2.137-3.175T2 12q0-2.075.788-3.9t2.137-3.175q1.35-1.35 3.175-2.137T12 2q2.075 0 3.9.788t3.175 2.137q1.35 1.35 2.138 3.175T22 12q0 2.075-.788 3.9t-2.137 3.175q-1.35 1.35-3.175 2.138T12 22Zm0-2q3.35 0 5.675-2.325T20 12q0-3.35-2.325-5.675T12 4Q8.65 4 6.325 6.325T4 12q0 3.35 2.325 5.675T12 20Zm0-8Z"
+            />
+          </svg>
+          Batal
+        </button>
+        <button className="btn btn-md shadow-md text-xs" type="submit">
+          {isLoading ? (
+            <Loading />
+          ) : (
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="h-5 w-5 text-xs"
+              viewBox="0 0 24 24"
+            >
+              <path
+                fill="#888888"
+                d="M21 7v12q0 .825-.588 1.413T19 21H5q-.825 0-1.413-.588T3 19V5q0-.825.588-1.413T5 3h12l4 4Zm-9 11q1.25 0 2.125-.875T15 15q0-1.25-.875-2.125T12 12q-1.25 0-2.125.875T9 15q0 1.25.875 2.125T12 18Zm-6-8h9V6H6v4Z"
+              />
+            </svg>
+          )}
+          Simpan
+        </button>
+      </div>
+    </form>
+  );
+};
+
+const ButtonStatus = ({ clickBelum, clickHapus, clickProses, list }) => {
+  if (list.status === "belum") {
+    return (
+      <button
+        onClick={() => clickBelum(list.name, list.id)}
+        className="cursor-pointer mx-auto flex justify-center items-center w-11/12 bg-red-500 hover:bg-red-700 text-white font-bold py-1.5 px-4 rounded-full"
+      >
+        <span className="h-5 text-xs">Belum</span>
+      </button>
+    );
+  } else if (list.status === "proses") {
+    return (
+      <button
+        onClick={() => clickProses(list.name, list.id)}
+        className="cursor-pointer mx-auto flex justify-center items-center w-11/12 bg-blue-500 hover:bg-blue-700 text-white font-bold py-1.5 px-4 rounded-full"
+      >
+        <span className="h-5 text-xs">Proses</span>
+      </button>
+    );
+  } else {
+    return (
+      <button
+        onClick={() => clickHapus(list.name, list.id)}
+        className="cursor-pointer mx-auto flex justify-center items-center w-11/12 bg-gray-100 hover:bg-gray-200 text-gray-600 font-bold py-1.5 px-4 rounded-full"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          className="h-5 w-5 fill-current text-center"
+          viewBox="0 0 24 24"
+        >
+          <path d="M5 21V6H4V4h5V3h6v1h5v2h-1v15H5Zm2-2h10V6H7v13Zm2-2h2V8H9v9Zm4 0h2V8h-2v9ZM7 6v13V6Z" />
+        </svg>
+      </button>
+    );
   }
 };

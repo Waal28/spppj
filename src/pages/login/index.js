@@ -2,9 +2,12 @@ import axios from "axios";
 import Cookies from "js-cookie";
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import OffShow from "../../components/icons/offshow";
+import OnShow from "../../components/icons/onshow";
 
 export default function LoginComp() {
   const [msg, setMsg] = useState(false);
+  const [type, setType] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
   const navigate = useNavigate();
@@ -39,7 +42,8 @@ export default function LoginComp() {
     } else {
       setTampil(true);
     }
-  }, []);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [token]);
 
   if (tampil)
     return (
@@ -65,17 +69,27 @@ export default function LoginComp() {
                   className="input input-bordered"
                 />
               </div>
-              <div className="form-control">
+              <div className="form-control relative">
                 <label className="label">
                   <span className="label-text">Password</span>
                 </label>
                 <input
-                  type="text"
+                  type={type ? "text" : "password"}
                   required
                   name="password"
                   placeholder="password"
                   className="input input-bordered"
                 />
+                <div
+                  onClick={() => setType(!type)}
+                  className="text-gray-400 absolute right-4 bottom-3 hover:text-gray-300 cursor-pointer"
+                >
+                  {type ? (
+                    <OffShow className="fill-current h-5 w-5" />
+                  ) : (
+                    <OnShow className="fill-current h-5 w-5" />
+                  )}
+                </div>
               </div>
               {msg && (
                 <span className="bg-red-500 p-2 rounded-md text-center text-white text-xs border-b-4 border-b-red-800">

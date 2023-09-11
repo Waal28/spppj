@@ -5,18 +5,21 @@ import { useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
 
 export default function ParentComp({ children }) {
-  const [tampil, setTampil] = useState(false);
-  const token = Cookies.get("user");
+  const [isLogin, setIsLogin] = useState(false);
   const navigate = useNavigate();
+
   useEffect(() => {
-    if (token) {
-      setTampil(true);
-    } else {
+    const token = Cookies.get("user");
+
+    if (!token) {
       navigate("/login");
+    } else {
+      setIsLogin(true);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  if (tampil)
+  if (isLogin) {
     return (
       <div className="w-screen min-h-screen">
         <NavComp />
@@ -24,4 +27,5 @@ export default function ParentComp({ children }) {
         <FooterComp />
       </div>
     );
+  }
 }

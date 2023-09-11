@@ -1,19 +1,36 @@
+import axios from "axios";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import OnShow from "../../components/icons/onshow";
+import OffShow from "../../components/icons/offshow";
 
 export default function RegisterComp() {
+  const [isLoading, setIsLoading] = useState(false);
   const [isMsg, setIsMsg] = useState(false);
-  const confpassword = "123";
-  const password = "123";
+  const [type, setType] = useState(false);
   const navigate = useNavigate();
-  function register(e) {
-    const confpassword_ = e.target.confpassword.value;
-    const password_ = e.target.password.value;
+  async function register(e) {
+    setIsLoading(true);
     e.preventDefault();
-    if (confpassword_ === confpassword && password_ === password) {
+
+    const user = {
+      name: e.target.username.value,
+      posisi: e.target.posisi.value,
+      email: e.target.email.value,
+      password: e.target.password.value,
+      confirmpassword: e.target.confpassword.value,
+    };
+
+    try {
+      await axios.post(
+        "https://blue-green-llama-robe.cyclic.app/user/register",
+        user
+      );
       navigate("/login");
+    } catch (error) {
+      setIsLoading(false);
+      setIsMsg(error.response.data.errors);
     }
-    setIsMsg(true);
   }
   return (
     <div className="hero min-h-screen bg-gray-400">
@@ -28,13 +45,13 @@ export default function RegisterComp() {
           <form onSubmit={register} className="card-body">
             <div className="form-control">
               <label className="label">
-                <span className="label-text">Username</span>
+                <span className="label-text">Nama</span>
               </label>
               <input
                 type="text"
                 required
                 name="username"
-                placeholder="username"
+                placeholder="nama"
                 className="input input-bordered"
               />
             </div>
@@ -44,6 +61,7 @@ export default function RegisterComp() {
               </label>
               <select
                 className="select select-bordered w-full max-w-xs"
+                name="posisi"
                 required
               >
                 <option>Sistem Analis</option>
@@ -69,38 +87,62 @@ export default function RegisterComp() {
                 className="input input-bordered"
               />
             </div>
-            <div className="form-control">
+            <div className="form-control relative">
               <label className="label">
                 <span className="label-text">Password</span>
               </label>
               <input
-                type="password"
+                type={type ? "text" : "password"}
                 required
                 name="password"
                 placeholder="password"
                 className="input input-bordered"
               />
+              <div
+                onClick={() => setType(!type)}
+                className="text-gray-400 absolute right-4 bottom-3 hover:text-gray-300 cursor-pointer"
+              >
+                {type ? (
+                  <OffShow className="fill-current h-5 w-5" />
+                ) : (
+                  <OnShow className="fill-current h-5 w-5" />
+                )}
+              </div>
             </div>
-            <div className="form-control">
+            <div className="form-control relative">
               <label className="label">
                 <span className="label-text">Confirm password</span>
               </label>
               <input
-                type="password"
+                type={type ? "text" : "password"}
                 required
                 name="confpassword"
                 placeholder="confirm password"
                 className="input input-bordered"
               />
+              <div
+                onClick={() => setType(!type)}
+                className="text-gray-400 absolute right-4 bottom-3 hover:text-gray-300 cursor-pointer"
+              >
+                {type ? (
+                  <OffShow className="fill-current h-5 w-5" />
+                ) : (
+                  <OnShow className="fill-current h-5 w-5" />
+                )}
+              </div>
             </div>
             {isMsg ? (
               <span className="bg-red-500 p-2 rounded-md text-center text-white text-xs border-b-4 border-b-red-800">
-                password dan confirm password tidak sesuai
+                {isMsg}
               </span>
             ) : null}
             <div className="form-control mt-6">
               <button className="btn btn-primary" type="submit">
-                Register
+                {isLoading ? (
+                  <span className="loading loading-spinner loading-sm"></span>
+                ) : (
+                  "Register"
+                )}
               </button>
             </div>
           </form>

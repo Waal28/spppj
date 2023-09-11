@@ -2,15 +2,12 @@ import React, { useEffect, useState } from "react";
 import ParentComp from "../../components/ParentComp";
 import ModalChangePJ from "../../components/ModalChangePJ";
 import axios from "axios";
-import Cookies from "js-cookie";
-import jwtDecode from "jwt-decode";
+import { useSelector } from "react-redux";
 
 export default function PenanggungJawab() {
   const [isLoading, setIsLoading] = useState(true);
-  const [user, setUser] = useState({
-    name: "aaaaaa",
-    posisi: "ddddd",
-  });
+  const user = useSelector((state) => state.myReducer.user);
+  const token = useSelector((state) => state.myReducer.token);
 
   const [pjSarapan, setPjSarapan] = useState([
     { id: 1, name: <Loading /> },
@@ -25,7 +22,7 @@ export default function PenanggungJawab() {
     axios
       .get("https://blue-green-llama-robe.cyclic.app/user/getAllPJ", {
         headers: {
-          Authorization: Cookies.get("user"),
+          Authorization: token,
         },
       })
       .then(function (res) {
@@ -39,11 +36,11 @@ export default function PenanggungJawab() {
       });
   }
   useEffect(() => {
-    if (Cookies.get("user")) {
-      setUser(jwtDecode(Cookies.get("user")));
+    if (token) {
+      getDataPJ();
     }
-    getDataPJ();
-  }, []);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [token]);
 
   return (
     <ParentComp>
