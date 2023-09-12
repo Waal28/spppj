@@ -31,7 +31,7 @@
     {
       "id": 5,
       "nama": "Mie, Kwetiau, Nasgor Balap",
-      "harga": "6k",
+      "harga": "6k pakai telor 10k",
       "embed": "https://www.google.com/maps/embed?pb=!4v1694512430871!6m8!1m7!1s_beg8EYtQHWithjm59vvUA!2m2!1d0.460957049762697!2d101.4018844361917!3f241.4!4f0.37999999999999545!5f0.7820865974627469",
       "link": "https://maps.app.goo.gl/b1WW366YA5QDV8Yo7"
     },
@@ -55,6 +55,13 @@
       "harga": "6k | 4k",
       "embed": "https://www.google.com/maps/embed?pb=!4v1694512619686!6m8!1m7!1s6-zcfs_ZFc5l_ww_tOERNw!2m2!1d0.4638929081693527!2d101.3985010130053!3f301.24!4f-0.6599999999999966!5f0.7820865974627469",
       "link": "https://maps.app.goo.gl/ihr58tUnpwm5Zazy5"
+    },
+    {
+      "id": 9,
+      "nama": "Cakwe | Bolang-Baling",
+      "harga": "5k dapat 4",
+      "embed": "https://www.google.com/maps/embed?pb=!4v1694522015651!6m8!1m7!1sklS_x1fLzN-sZOWP3QEZmw!2m2!1d0.4612857519418702!2d101.4018708378317!3f279.91320745535916!4f-11.67268981218173!5f0.7820865974627469",
+      "link": "https://goo.gl/maps/N1r5qPsAaD4LNC2g9"
     }
   ]
 }

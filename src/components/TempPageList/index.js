@@ -278,7 +278,7 @@ export default function TempPageList({ title, category, icon }) {
           <input
             onChange={(e) => cari(e.target.value)}
             className="input input-sm input-bordered join-item lg:w-1/2 w-3/5"
-            placeholder="Cari name atau pesanan"
+            placeholder="Cari nama atau pesanan"
           />
           <select
             onChange={(e) => filterData(e.target.value)}
@@ -467,28 +467,33 @@ const ChildModalTambah = ({
   async function handleSubmit(e) {
     setIsLoading(true);
     e.preventDefault();
-    try {
-      await axios.post(
-        `https://blue-green-llama-robe.cyclic.app/order/create/${category}`,
-        formData,
-        {
-          headers: {
-            Authorization: token,
-          },
-        }
-      );
-      getAll(false);
-      setFormData({
-        ...formData,
-        order: "",
-        price: "",
-        pay: "",
-      });
+    if (Number(formData.price) > Number(formData.pay)) {
+      setMsg("Uang tidak cukup");
       setIsLoading(false);
-      setDataModal({ children: null, isClick: false });
-    } catch (error) {
-      setMsg(error.response.data.errors);
-      setIsLoading(false);
+    } else {
+      try {
+        await axios.post(
+          `https://blue-green-llama-robe.cyclic.app/order/create/${category}`,
+          formData,
+          {
+            headers: {
+              Authorization: token,
+            },
+          }
+        );
+        getAll(false);
+        setFormData({
+          ...formData,
+          order: "",
+          price: "",
+          pay: "",
+        });
+        setIsLoading(false);
+        setDataModal({ children: null, isClick: false });
+      } catch (error) {
+        setMsg(error.response.data.errors);
+        setIsLoading(false);
+      }
     }
   }
   const clickBatal = () => {

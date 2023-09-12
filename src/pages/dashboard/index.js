@@ -45,7 +45,7 @@ export default function Dashboard() {
           Penanggung Jawab Hari Ini
         </h1>
         <hr className="h-1 mx-auto bg-primary border-0 rounded my-3" />
-        <div className=" grid grid-cols-2 mt-8 shadow-lg">
+        <div className=" grid grid-cols-2 mt-8 shadow-lg rounded-lg">
           <div>
             <p className="text-center text-xs p-2 rounded-t-lg bg-kuarteneri font-bold border-b border-e">
               Sarapan

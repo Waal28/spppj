@@ -81,7 +81,7 @@ export default function PenanggungJawab() {
               </label>
             </div>
           )}
-          <div className=" grid grid-cols-2 mt-8 shadow-lg">
+          <div className=" grid grid-cols-2 mt-8 shadow-lg rounded-lg">
             <div>
               <p className="text-center text-xs p-2 rounded-t-lg bg-kuarteneri font-bold border-b border-e">
                 Sarapan
@@ -132,6 +132,11 @@ export default function PenanggungJawab() {
                 )}
               </ul>
             </div>
+          </div>
+          <div className="text-xs mt-8">
+            <span>
+              Catatan: Anda hanya bisa mengganti PJ hanya pada hari minggu
+            </span>
           </div>
         </section>
       </main>
