@@ -3,6 +3,7 @@ import ParentComp from "../../components/ParentComp";
 import CardLocation from "../../components/CardLocation";
 import axios from "axios";
 import { useSelector } from "react-redux";
+import lokasi from "../../data/lokasi.json";
 
 export default function Dashboard() {
   const token = useSelector((state) => state.myReducer.token);
@@ -14,72 +15,7 @@ export default function Dashboard() {
     { id: 1, name: <Loading /> },
     { id: 2, name: <Loading /> },
   ]);
-  const lokasi = [
-    {
-      id: 1,
-      nama: "Lontong | Lotek | Soto",
-      harga: "5k | 8k | 7k",
-      embed:
-        "https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d127669.67434730375!2d101.4202368!3d0.4816896!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31d5a9347b153e01%3A0xcb644449e8a62d2!2sMal%20SKA!5e0!3m2!1sid!2sid!4v1694075518880!5m2!1sid!2sid",
-      link: "https://goo.gl/maps/qgYCsB2ironUGFKf9",
-    },
-    {
-      id: 2,
-      nama: "Batagor",
-      harga: "5k",
-      embed:
-        "https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d127669.67434730375!2d101.4202368!3d0.4816896!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31d5a9347b153e01%3A0xcb644449e8a62d2!2sMal%20SKA!5e0!3m2!1sid!2sid!4v1694075518880!5m2!1sid!2sid",
-      link: "https://goo.gl/maps/qgYCsB2ironUGFKf9",
-    },
-    {
-      id: 3,
-      nama: "Bubur",
-      harga: "10k",
-      embed:
-        "https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d127669.67434730375!2d101.4202368!3d0.4816896!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31d5a9347b153e01%3A0xcb644449e8a62d2!2sMal%20SKA!5e0!3m2!1sid!2sid!4v1694075518880!5m2!1sid!2sid",
-      link: "https://goo.gl/maps/qgYCsB2ironUGFKf9",
-    },
-    {
-      id: 4,
-      nama: "Mie Ayam",
-      harga: "10k",
-      embed:
-        "https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d127669.67434730375!2d101.4202368!3d0.4816896!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31d5a9347b153e01%3A0xcb644449e8a62d2!2sMal%20SKA!5e0!3m2!1sid!2sid!4v1694075518880!5m2!1sid!2sid",
-      link: "https://goo.gl/maps/qgYCsB2ironUGFKf9",
-    },
-    {
-      id: 5,
-      nama: "Mie, Kwetiau, Nasgor Balap",
-      harga: "6k",
-      embed:
-        "https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d127669.67434730375!2d101.4202368!3d0.4816896!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31d5a9347b153e01%3A0xcb644449e8a62d2!2sMal%20SKA!5e0!3m2!1sid!2sid!4v1694075518880!5m2!1sid!2sid",
-      link: "https://goo.gl/maps/qgYCsB2ironUGFKf9",
-    },
-    {
-      id: 6,
-      nama: "Geprek",
-      harga: "13k",
-      embed:
-        "https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d127669.67434730375!2d101.4202368!3d0.4816896!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31d5a9347b153e01%3A0xcb644449e8a62d2!2sMal%20SKA!5e0!3m2!1sid!2sid!4v1694075518880!5m2!1sid!2sid",
-      link: "https://goo.gl/maps/qgYCsB2ironUGFKf9",
-    },
-    {
-      id: 7,
-      nama: "Ampera",
-      harga: "13k",
-      embed:
-        "https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d127669.67434730375!2d101.4202368!3d0.4816896!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31d5a9347b153e01%3A0xcb644449e8a62d2!2sMal%20SKA!5e0!3m2!1sid!2sid!4v1694075518880!5m2!1sid!2sid",
-      link: "https://goo.gl/maps/qgYCsB2ironUGFKf9",
-    },
-    {
-      id: 8,
-      nama: "Jus | Teh Es",
-      harga: "6k | 4k",
-      embed:
-        "https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d127669.67434730375!2d101.4202368!3d0.4816896!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31d5a9347b153e01%3A0xcb644449e8a62d2!2sMal%20SKA!5e0!3m2!1sid!2sid!4v1694075518880!5m2!1sid!2sid",
-      link: "https://goo.gl/maps/qgYCsB2ironUGFKf9",
-    },
-  ];
+
   async function getDataPJ() {
     axios
       .get("https://blue-green-llama-robe.cyclic.app/user/getAllPJ", {
@@ -157,7 +93,7 @@ export default function Dashboard() {
           <h1 className="text-center font-serif text-xl">Lokasi Makanan</h1>
           <hr className="h-1 mx-auto bg-primary border-0 rounded my-3" />
           <div className="grid lg:grid-cols-2 grid-cols-1 mx-auto gap-4">
-            {lokasi.map((lok) => (
+            {lokasi.data.map((lok) => (
               <CardLocation key={lok.id} lokasi={lok} />
             ))}
           </div>

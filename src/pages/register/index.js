@@ -33,11 +33,11 @@ export default function RegisterComp() {
     }
   }
   return (
-    <div className="hero min-h-screen bg-primary">
+    <div className="hero min-h-screen bg-secondary">
       <div className="hero-content flex-col lg:flex-row-reverse">
         <div className="text-center lg:text-left">
-          <h1 className="text-5xl font-bold">Register SPPPJ!</h1>
-          <p className="pt-6">
+          <h1 className="text-5xl font-bold text-tPrimary">Register SPPPJ!</h1>
+          <p className="pt-6 text-tPrimary">
             Sistem Pemesanan dan Penentuan Penanggung Jawab
           </p>
         </div>
@@ -45,7 +45,7 @@ export default function RegisterComp() {
           <form onSubmit={register} className="card-body">
             <div className="form-control">
               <label className="label">
-                <span className="label-text">Nama</span>
+                <span className="label-text text-tPrimary">Nama</span>
               </label>
               <input
                 type="text"
@@ -57,7 +57,7 @@ export default function RegisterComp() {
             </div>
             <div className="form-control">
               <label className="label">
-                <span className="label-text">Posisi</span>
+                <span className="label-text text-tPrimary">Posisi</span>
               </label>
               <select
                 className="select select-bordered w-full max-w-xs"
@@ -77,7 +77,7 @@ export default function RegisterComp() {
             </div>
             <div className="form-control">
               <label className="label">
-                <span className="label-text">Email</span>
+                <span className="label-text text-tPrimary">Email</span>
               </label>
               <input
                 type="email"
@@ -89,7 +89,7 @@ export default function RegisterComp() {
             </div>
             <div className="form-control relative">
               <label className="label">
-                <span className="label-text">Password</span>
+                <span className="label-text text-tPrimary">Password</span>
               </label>
               <input
                 type={type ? "text" : "password"}
@@ -111,7 +111,9 @@ export default function RegisterComp() {
             </div>
             <div className="form-control relative">
               <label className="label">
-                <span className="label-text">Confirm password</span>
+                <span className="label-text text-tPrimary">
+                  Confirm password
+                </span>
               </label>
               <input
                 type={type ? "text" : "password"}
@@ -132,12 +134,12 @@ export default function RegisterComp() {
               </div>
             </div>
             {isMsg ? (
-              <span className="bg-red-500 p-2 rounded-md text-center text-white text-xs border-b-4 border-b-red-800">
+              <span className="bg-red-500 p-2 rounded-md text-center text-tPrimary text-xs border-b-4 border-b-red-800">
                 {isMsg}
               </span>
             ) : null}
             <div className="form-control mt-6">
-              <button className="btn btn-primary" type="submit">
+              <button className="btn bg-kuarteneri text-tPrimary" type="submit">
                 {isLoading ? (
                   <span className="loading loading-spinner loading-sm"></span>
                 ) : (

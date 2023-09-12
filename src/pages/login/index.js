@@ -34,24 +34,23 @@ export default function LoginComp() {
       });
   }
   const [tampil, setTampil] = useState(false);
-  const token = Cookies.get("user");
 
   useEffect(() => {
-    if (token) {
+    if (Cookies.get("user")) {
       navigate("/");
     } else {
       setTampil(true);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [token]);
+  }, [Cookies.get("user")]);
 
   if (tampil)
     return (
-      <div className="hero min-h-screen bg-primary">
+      <div className="hero min-h-screen bg-secondary">
         <div className="hero-content flex-col lg:flex-row-reverse">
           <div className="text-center lg:text-left">
-            <h1 className="text-5xl font-bold">Login SPPPJ!</h1>
-            <p className="pt-6">
+            <h1 className="text-5xl font-bold text-tPrimary">Login SPPPJ!</h1>
+            <p className="pt-6 text-tPrimary">
               Sistem Pemesanan dan Penentuan Penanggung Jawab
             </p>
           </div>
@@ -59,7 +58,7 @@ export default function LoginComp() {
             <form onSubmit={login} className="card-body">
               <div className="form-control">
                 <label className="label">
-                  <span className="label-text">Email</span>
+                  <span className="label-text text-tPrimary">Email</span>
                 </label>
                 <input
                   type="email"
@@ -71,7 +70,7 @@ export default function LoginComp() {
               </div>
               <div className="form-control relative">
                 <label className="label">
-                  <span className="label-text">Password</span>
+                  <span className="label-text text-tPrimary">Password</span>
                 </label>
                 <input
                   type={type ? "text" : "password"}
@@ -97,7 +96,10 @@ export default function LoginComp() {
                 </span>
               )}
               <div className="form-control mt-6">
-                <button className="btn btn-primary" type="submit">
+                <button
+                  className="btn bg-kuarteneri text-tPrimary"
+                  type="submit"
+                >
                   {isLoading ? (
                     <span className="loading loading-spinner loading-sm"></span>
                   ) : (
@@ -105,7 +107,7 @@ export default function LoginComp() {
                   )}
                 </button>
               </div>
-              <div className="text-blue-700 text-center">
+              <div className="text-center text-tPrimary">
                 <Link to="/register">Register</Link>
               </div>
             </form>

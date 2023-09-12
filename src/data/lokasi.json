@@ -1,0 +1,60 @@
+{
+  "data": [
+    {
+      "id": 1,
+      "nama": "Lontong | Lotek | Soto",
+      "harga": "5k | 8k | 7k",
+      "embed": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3989.68882814152!2d101.3978575!3d0.46161939999999996!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31d5a8f2f02f7ea7%3A0x9a95a8f5d780ff8c!2sWarung%20Bude!5e0!3m2!1sid!2sid!4v1694512107925!5m2!1sid!2sid",
+      "link": "https://maps.app.goo.gl/LMvgfYm2DzEnnd2bA"
+    },
+    {
+      "id": 2,
+      "nama": "Batagor",
+      "harga": "5k",
+      "embed": "https://www.google.com/maps/embed?pb=!4v1694512268299!6m8!1m7!1sHdbgfHHxP08ymsyhRCIFog!2m2!1d0.4637659252094318!2d101.401687476686!3f344.95!4f-23.659999999999997!5f0.7820865974627469",
+      "link": "https://maps.app.goo.gl/2vmB6ELzLf7DX1EJ8"
+    },
+    {
+      "id": 3,
+      "nama": "Bubur",
+      "harga": "10k",
+      "embed": "https://www.google.com/maps/embed?pb=!4v1694512316574!6m8!1m7!1sVCxaqFUO6i6jZVcsE93Nqg!2m2!1d0.4618070972470271!2d101.4017767753411!3f188.72!4f-11.269999999999996!5f0.7820865974627469",
+      "link": "https://maps.app.goo.gl/6qGUJiet4rrcRWAc8"
+    },
+    {
+      "id": 4,
+      "nama": "Mie Ayam",
+      "harga": "10k",
+      "embed": "https://www.google.com/maps/embed?pb=!4v1694512388434!6m8!1m7!1sKRLu-K0PrgV9IHO-pnKYlA!2m2!1d0.4592590159003406!2d101.4019521681776!3f64.37!4f-14.670000000000002!5f0.7820865974627469",
+      "link": "https://maps.app.goo.gl/1CtAQA12jLa4pFZB7"
+    },
+    {
+      "id": 5,
+      "nama": "Mie, Kwetiau, Nasgor Balap",
+      "harga": "6k",
+      "embed": "https://www.google.com/maps/embed?pb=!4v1694512430871!6m8!1m7!1s_beg8EYtQHWithjm59vvUA!2m2!1d0.460957049762697!2d101.4018844361917!3f241.4!4f0.37999999999999545!5f0.7820865974627469",
+      "link": "https://maps.app.goo.gl/b1WW366YA5QDV8Yo7"
+    },
+    {
+      "id": 6,
+      "nama": "Geprek",
+      "harga": "14k",
+      "embed": "https://www.google.com/maps/embed?pb=!4v1694512521476!6m8!1m7!1sB5ysPUYu_A5PfkkDn2I5Rw!2m2!1d0.4635778344417765!2d101.4051168271316!3f176.71!4f17.22!5f0.7820865974627469",
+      "link": "https://maps.app.goo.gl/aGhTEeziFdtQCUtP6"
+    },
+    {
+      "id": 7,
+      "nama": "Ampera",
+      "harga": "13k",
+      "embed": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3989.687545830927!2d101.39681259999999!3d0.46389939999999996!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31d5a9ea9c6d3427%3A0xa5181310f6871c79!2sAmpera%20sei%20lareh!5e0!3m2!1sid!2sid!4v1694512576814!5m2!1sid!2sid",
+      "link": "https://maps.app.goo.gl/RyqnijEjLaZvPovC8"
+    },
+    {
+      "id": 8,
+      "nama": "Jus | Teh Es",
+      "harga": "6k | 4k",
+      "embed": "https://www.google.com/maps/embed?pb=!4v1694512619686!6m8!1m7!1s6-zcfs_ZFc5l_ww_tOERNw!2m2!1d0.4638929081693527!2d101.3985010130053!3f301.24!4f-0.6599999999999966!5f0.7820865974627469",
+      "link": "https://maps.app.goo.gl/ihr58tUnpwm5Zazy5"
+    }
+  ]
+}

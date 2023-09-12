@@ -2,14 +2,27 @@ import React from "react";
 import ParentComp from "../../components/ParentComp";
 import CardUser from "../../components/CardUser";
 import iwal from "../../img/iwal2.jpg";
+import ferdie from "../../img/ferdie.jpeg";
 
 export default function Tentang() {
-  const user = {
-    nama: "Wal Husna Faizul",
-    img: iwal,
-    developer: "Frontend",
-    portfolio: "https://portfolio-wal-husna-faizul.vercel.app",
-  };
+  const users = [
+    {
+      id: 1,
+      nama: "Wal Husna Faizul",
+      img: iwal,
+      developer: "Frontend",
+      wa: "https://wa.me/+6282272693608",
+      github: "https://github.com/Waal28",
+    },
+    {
+      id: 2,
+      nama: "Ferdie Maulana",
+      img: ferdie,
+      developer: "Backend",
+      wa: "https://wa.me/+6285278145715",
+      github: "https://github.com/Ferdie12",
+    },
+  ];
   return (
     <ParentComp>
       <div className="lg:w-1/2 md:w-1/2 sm:w-3/4 w-full p-4 mx-auto">
@@ -38,8 +51,10 @@ export default function Tentang() {
         <section className="mt-10">
           <h1 className="text-center font-serif text-2xl">Developer</h1>
           <hr className="h-1 mx-auto bg-primary border-0 rounded my-3" />
-          <main className="grid grid-cols-1">
-            <CardUser user={user} />
+          <main className="grid grid-cols-1 gap-4 mt-6">
+            {users.map((user) => (
+              <CardUser user={user} key={user.id} />
+            ))}
           </main>
         </section>
       </div>
