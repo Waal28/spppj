@@ -12,10 +12,14 @@ export default function PenanggungJawab() {
   const [pjSarapan, setPjSarapan] = useState([
     { id: 1, name: <Loading /> },
     { id: 2, name: <Loading /> },
+    { id: 3, name: <Loading /> },
+    { id: 4, name: <Loading /> },
   ]);
   const [pjMakanSiang, setPjMakanSiang] = useState([
     { id: 1, name: <Loading /> },
     { id: 2, name: <Loading /> },
+    { id: 3, name: <Loading /> },
+    { id: 4, name: <Loading /> },
   ]);
 
   async function getDataPJ() {
