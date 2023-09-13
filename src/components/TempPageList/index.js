@@ -298,13 +298,13 @@ export default function TempPageList({ title, category, icon }) {
             className="select select-sm select-bordered join-item lg:w-1/2 w-2/5"
           >
             <option value="Default">Filter status</option>
-            <option value="sudah">Sudah diterima</option>
+            <option value="sudah">Diterima</option>
             <option value="proses">Diproses</option>
             <option value="belum">Belum bayar</option>
           </select>
         </div>
         {/* status */}
-        <div className="grid grid-cols-3 gap 2 text-xs m-3">
+        <div className="grid grid-cols-3 gap 2 text-xs my-3">
           <section className="flex items-center justify-start">
             <div className="rounded-full me-2 h-3 w-3 bg-red-200 shadow"></div>
             belum bayar
@@ -315,7 +315,7 @@ export default function TempPageList({ title, category, icon }) {
           </section>
           <section className="flex items-center justify-end">
             <div className="rounded-full me-2 h-3 w-3 bg-green-200 shadow"></div>
-            sudah diterima
+            diterima
           </section>
         </div>
         {/* table */}
