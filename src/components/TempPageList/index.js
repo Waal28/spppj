@@ -10,9 +10,9 @@ export default function TempPageList({ title, category, icon }) {
   const user = useSelector((state) => state.myReducer.user);
   const token = useSelector((state) => state.myReducer.token);
   const catatan = [
-    "Ampera: ayam bakar gk pakai nasi aja bla bla bla...",
-    "Batagor: somay aja gk pakai batagor bla bla bla...",
-    "Geprek: bagian dada bla bla bla...",
+    "Ampera: Ayam bakar gk pakai nasi aja bla bla bla...",
+    "Batagor: Somay aja gk pakai batagor bla bla bla...",
+    "Geprek: Bagian dada bla bla bla...",
   ];
 
   const [confirm, setConfirm] = useState({
@@ -386,8 +386,8 @@ export default function TempPageList({ title, category, icon }) {
             </button>
           ) : null}
         </div>
-        <div className="text-xs mt-5 ">
-          <span>Catatan: Kalau mau request buat input seperti ini contoh:</span>
+        <div className="text-xs mt-8 ">
+          <span>Catatan: Kalau mau request buat input seperti ini:</span>
           <ul className="menu text-xs">
             {catatan.map((cat) => (
               <li key={cat} className="p-1 border-s">
