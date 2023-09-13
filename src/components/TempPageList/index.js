@@ -358,21 +358,19 @@ export default function TempPageList({ title, category, icon }) {
             </tbody>
           </table>
         </div>
-        <section className="mt-3 flex justify-end">
-          <div className="bg-tertiary rounded-xl px-3 py-2 w-2/3">
-            <table className="text-xs font-medium text-black">
-              <tbody>
-                <tr>
-                  <td className="p-1">Total Bayar</td>
-                  <td className="p-1">: {formatCurrency(totalUang)}</td>
-                </tr>
-                <tr>
-                  <td className="p-1">Total Kembalian</td>
-                  <td className="p-1">: {formatCurrency(totalKembalian)}</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
+        <section className="bg-tertiary rounded-xl mx-auto mt-3 px-3 py-2 w-10/12">
+          <table className="text-xs font-medium text-black">
+            <tbody>
+              <tr>
+                <td className="p-1">Total Bayar</td>
+                <td className="p-1">: {formatCurrency(totalUang)}</td>
+              </tr>
+              <tr>
+                <td className="p-1">Total Kembalian</td>
+                <td className="p-1">: {formatCurrency(totalKembalian)}</td>
+              </tr>
+            </tbody>
+          </table>
         </section>
         {/* add button */}
         <div className="flex items-center justify-between mt-5">
