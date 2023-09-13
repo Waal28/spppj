@@ -9,11 +9,18 @@ import { useSelector } from "react-redux";
 export default function TempPageList({ title, category, icon }) {
   const user = useSelector((state) => state.myReducer.user);
   const token = useSelector((state) => state.myReducer.token);
-  const catatan = [
-    "Ampera: Ayam bakar gk pakai nasi aja bla bla bla...",
-    "Batagor: Somay aja gk pakai batagor bla bla bla...",
-    "Geprek: Bagian dada bla bla bla...",
-  ];
+  const catatan = {
+    salah: [
+      "Ayam bakar gk pakai nasi aja bla bla bla...",
+      "Somay aja gk pakai batagor bla bla bla...",
+      "Geprek dada bla bla bla...",
+    ],
+    benar: [
+      "Ampera: Ayam bakar gk pakai nasi aja bla bla bla...",
+      "Batagor: Somay aja gk pakai batagor bla bla bla...",
+      "Geprek: Bagian dada bla bla bla...",
+    ],
+  };
 
   const [confirm, setConfirm] = useState({
     title: "",
@@ -387,14 +394,42 @@ export default function TempPageList({ title, category, icon }) {
           ) : null}
         </div>
         <div className="text-xs mt-8 ">
-          <span>Catatan: Kalau mau request buat input seperti ini:</span>
-          <ul className="menu text-xs">
-            {catatan.map((cat) => (
-              <li key={cat} className="p-1 border-s">
-                {cat}
-              </li>
-            ))}
-          </ul>
+          <span>Warning!!! Perhatikan cara request pesanan:</span>
+          <table className="mt-2 mx-auto">
+            <tbody>
+              {catatan.salah.map((cat) => (
+                <tr key={cat}>
+                  <td>
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      className="h-3 w-3 fill-current text-red-600"
+                      viewBox="0 0 24 24"
+                    >
+                      <path d="M6.4 19L5 17.6l5.6-5.6L5 6.4L6.4 5l5.6 5.6L17.6 5L19 6.4L13.4 12l5.6 5.6l-1.4 1.4l-5.6-5.6L6.4 19Z" />
+                    </svg>
+                  </td>
+                  <td>{cat}</td>
+                </tr>
+              ))}
+              <tr>
+                <td className="p-1" colSpan={catatan.salah.length}></td>
+              </tr>
+              {catatan.benar.map((cat) => (
+                <tr key={cat}>
+                  <td>
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      className="h-4 w-4 fill-current text-green-600"
+                      viewBox="0 0 24 24"
+                    >
+                      <path d="m10.5 16.2l-4-4l1.4-1.4l2.6 2.6l5.6-5.6l1.4 1.4l-7 7Z" />
+                    </svg>
+                  </td>
+                  <td>{cat}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
         </div>
       </main>
       <ModalComp dataModal={dataModal} setDataModal={setDataModal} />
