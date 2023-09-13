@@ -28,7 +28,7 @@ export default function ParentComp({ children }) {
     return (
       <div className="w-screen min-h-screen">
         <NavComp />
-        <div className="p-5 min-h-screen w-screen">{children}</div>
+        <div className="p-3 min-h-screen w-screen">{children}</div>
         <FooterComp />
       </div>
     );
