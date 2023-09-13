@@ -17,5 +17,5 @@ export default function Sarapan() {
       </g>
     </svg>
   );
-  return <TempPageList title="sarapan" category="sarapan" icon={icon} />;
+  return <TempPageList title="Sarapan" category="sarapan" icon={icon} />;
 }
