@@ -11,14 +11,14 @@ export default function TempPageList({ title, category, icon }) {
   const token = useSelector((state) => state.myReducer.token);
   const catatan = {
     salah: [
-      "Ayam bakar gk pakai nasi aja bla bla bla...",
+      "Ayam bakar gk pakai nasi bla bla bla...",
       "Somay aja gk pakai batagor bla bla bla...",
-      "Geprek dada bla bla bla...",
+      "Geprek dada, sambel bla bla bla...",
     ],
     benar: [
-      "Ampera: Ayam bakar gk pakai nasi aja bla bla bla...",
+      "Ampera: Ayam bakar gk pakai nasi bla bla bla...",
       "Batagor: Somay aja gk pakai batagor bla bla bla...",
-      "Geprek: Bagian dada bla bla bla...",
+      "Geprek: Bagian dada, sambel bla bla bla...",
     ],
   };
 
@@ -404,6 +404,12 @@ export default function TempPageList({ title, category, icon }) {
           ) : null}
         </div>
         <div className="text-xs mt-8 ">
+          <span>
+            Catatan: Untuk PJ jika semua pesanan sudah diterima silahkan klik
+            tombol hapus semua
+          </span>
+          <br />
+          <br />
           <span>Warning!!! Perhatikan cara request pesanan:</span>
           <table className="mt-2 mx-auto">
             <tbody>
