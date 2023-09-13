@@ -25,7 +25,7 @@ export default function AvatarComp() {
             {user.posisi ? (
               `(${user.posisi})`
             ) : (
-              <div className="animate-pulse w-20 h-3  rounded-md "></div>
+              <div className="animate-pulse w-20 h-3 bg-primary rounded-md "></div>
             )}
           </span>
         </div>
