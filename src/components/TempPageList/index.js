@@ -9,6 +9,11 @@ import { useSelector } from "react-redux";
 export default function TempPageList({ title, category, icon }) {
   const user = useSelector((state) => state.myReducer.user);
   const token = useSelector((state) => state.myReducer.token);
+  const catatan = [
+    "Ampera: ayam bakar gk pakai nasi aja bla bla bla...",
+    "Batagor: somay aja gk pakai batagor bla bla bla...",
+    "Geprek: bagian dada bla bla bla...",
+  ];
 
   const [confirm, setConfirm] = useState({
     title: "",
@@ -380,6 +385,16 @@ export default function TempPageList({ title, category, icon }) {
               Hapus Semua
             </button>
           ) : null}
+        </div>
+        <div className="text-xs mt-5 ">
+          <span>Catatan: Kalau mau request buat input seperti ini contoh:</span>
+          <ul className="menu text-xs">
+            {catatan.map((cat) => (
+              <li key={cat} className="p-1 border-s">
+                {cat}
+              </li>
+            ))}
+          </ul>
         </div>
       </main>
       <ModalComp dataModal={dataModal} setDataModal={setDataModal} />
