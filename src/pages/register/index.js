@@ -23,7 +23,7 @@ export default function RegisterComp() {
 
     try {
       await axios.post(
-        "https://blue-green-llama-robe.cyclic.app/user/register",
+        "https://backendpj-5daf09e9c27c.herokuapp.com/user/register",
         user
       );
       navigate("/login");

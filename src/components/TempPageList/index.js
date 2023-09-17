@@ -70,7 +70,7 @@ export default function TempPageList({ title, category, icon }) {
         setConfirm({ ...dataConfirm, titleYbutton: <Loading /> });
         try {
           await axios.delete(
-            "https://blue-green-llama-robe.cyclic.app/order/delete-all",
+            "https://backendpj-5daf09e9c27c.herokuapp.com/order/delete-all",
             {
               headers: {
                 Authorization: token,
@@ -104,7 +104,7 @@ export default function TempPageList({ title, category, icon }) {
         setConfirm({ ...dataConfirm, titleYbutton: <Loading /> });
         try {
           await axios.put(
-            "https://blue-green-llama-robe.cyclic.app/order/set-bayar",
+            "https://backendpj-5daf09e9c27c.herokuapp.com/order/set-bayar",
             {
               id,
               status: "proses",
@@ -142,7 +142,7 @@ export default function TempPageList({ title, category, icon }) {
         setConfirm({ ...dataConfirm, titleYbutton: <Loading /> });
         try {
           await axios.put(
-            "https://blue-green-llama-robe.cyclic.app/order/set-bayar",
+            "https://backendpj-5daf09e9c27c.herokuapp.com/order/set-bayar",
             {
               id,
               status: "sudah",
@@ -179,7 +179,7 @@ export default function TempPageList({ title, category, icon }) {
         setConfirm({ ...dataConfirm, titleYbutton: <Loading /> });
         try {
           await axios.delete(
-            `https://blue-green-llama-robe.cyclic.app/order/delete-one/${id}`,
+            `https://backendpj-5daf09e9c27c.herokuapp.com/order/delete-one/${id}`,
             {
               headers: {
                 Authorization: token,
@@ -250,7 +250,7 @@ export default function TempPageList({ title, category, icon }) {
   async function getAll(loadValue) {
     try {
       const res = await axios.get(
-        `https://blue-green-llama-robe.cyclic.app/order/getAll/${category}`,
+        `https://backendpj-5daf09e9c27c.herokuapp.com/order/getAll/${category}`,
         {
           headers: {
             Authorization: token,
@@ -539,7 +539,7 @@ const ChildModalTambah = ({
     } else {
       try {
         await axios.post(
-          `https://blue-green-llama-robe.cyclic.app/order/create/${category}`,
+          `https://backendpj-5daf09e9c27c.herokuapp.com/order/create/${category}`,
           formData,
           {
             headers: {

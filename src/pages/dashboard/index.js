@@ -22,7 +22,7 @@ export default function Dashboard() {
 
   async function getDataPJ() {
     axios
-      .get("https://blue-green-llama-robe.cyclic.app/user/getAllPJ", {
+      .get("https://backendpj-5daf09e9c27c.herokuapp.com/user/getAllPJ", {
         headers: {
           Authorization: token,
         },

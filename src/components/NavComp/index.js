@@ -135,7 +135,7 @@ export default function NavComp() {
               </Link>
             </li>
             <li>
-              <button onClick={logout}>
+              <button onClick={logout} className="flex">
                 <div>
                   <svg
                     xmlns="http://www.w3.org/2000/svg"

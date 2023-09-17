@@ -18,7 +18,7 @@ export default function LoginComp() {
     const password_ = e.target.password.value;
     setIsLoading(true);
     axios
-      .post("https://blue-green-llama-robe.cyclic.app/user/login", {
+      .post("https://backendpj-5daf09e9c27c.herokuapp.com/user/login", {
         email: email_,
         password: password_,
       })
