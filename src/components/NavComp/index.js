@@ -152,8 +152,9 @@ export default function NavComp() {
         </div>
         <Link
           to="/"
-          className="btn btn-ghost text-tPrimary normal-case text-xl font-serif font-normal"
+          className="font-medium font-serif text-xl text-tPrimary tracking-wide px-3"
         >
+<<<<<<< HEAD
           S
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -167,6 +168,10 @@ export default function NavComp() {
             />
           </svg>
           PJ
+=======
+          si
+          <span className="bg-black rounded px-1">PJ</span>
+>>>>>>> 01353f5270a4abb44e873b63f3c9ecdc9a1a6082
         </Link>
       </div>
       <div className="navbar-center text-tPrimary hidden lg:flex">
