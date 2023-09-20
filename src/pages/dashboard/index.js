@@ -21,20 +21,21 @@ export default function Dashboard() {
   ]);
 
   async function getDataPJ() {
-    axios
-      .get("https://backendpj-5daf09e9c27c.herokuapp.com/user/getAllPJ", {
-        headers: {
-          Authorization: token,
-        },
-      })
-      .then(function (res) {
-        const pj = res.data.data;
-        setPjSarapan(pj.sarapan);
-        setPjMakanSiang(pj.siang);
-      })
-      .catch(function (error) {
-        console.log(error.response.data.errors);
-      });
+    try {
+      const res = await axios.get(
+        "https://backendpj-5daf09e9c27c.herokuapp.com/user/getAllPJ",
+        {
+          headers: {
+            Authorization: token,
+          },
+        }
+      );
+      const pj = await res.data.data;
+      setPjSarapan(pj.sarapan);
+      setPjMakanSiang(pj.siang);
+    } catch (error) {
+      console.log(error.response.data.errors);
+    }
   }
   useEffect(() => {
     if (token) {
