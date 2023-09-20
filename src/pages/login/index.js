@@ -49,7 +49,6 @@ export default function LoginComp() {
       <div className="hero min-h-screen bg-secondary">
         <div className="hero-content flex-col lg:flex-row-reverse">
           <div className="text-center lg:text-left">
-<<<<<<< HEAD
             <h1 className="text-5xl font-bold text-tPrimary">
               Login{" "}
               <span className="rounded-lg px-1 inline-block w-fit">
@@ -69,13 +68,6 @@ export default function LoginComp() {
                   />
                 </svg>
                 PJ
-=======
-            <h1 className="text-5xl font-bold text-tPrimary tracking-wider">
-              Login{" "}
-              <span className="font-serif">
-                si
-                <span className="bg-black rounded-lg px-1.5">PJ</span>
->>>>>>> 01353f5270a4abb44e873b63f3c9ecdc9a1a6082
               </span>
             </h1>
             <p className="pt-6 text-tPrimary">
