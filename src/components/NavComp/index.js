@@ -152,9 +152,10 @@ export default function NavComp() {
         </div>
         <Link
           to="/"
-          className="btn btn-ghost text-tPrimary normal-case text-xl font-serif font-normal"
+          className="font-medium font-serif text-xl text-tPrimary tracking-wide px-3"
         >
-          SPPPJ
+          si
+          <span className="bg-black rounded px-1">PJ</span>
         </Link>
       </div>
       <div className="navbar-center text-tPrimary hidden lg:flex">

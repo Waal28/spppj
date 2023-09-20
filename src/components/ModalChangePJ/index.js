@@ -41,7 +41,7 @@ export default function ModalChangePJ() {
         });
         try {
           await axios.get(
-            `https://blue-green-llama-robe.cyclic.app/user/set-pj/${id}`,
+            `https://backendpj-5daf09e9c27c.herokuapp.com/user/set-pj/${id}`,
             {
               headers: {
                 Authorization: Cookies.get("user"),
@@ -65,7 +65,7 @@ export default function ModalChangePJ() {
   async function getDataSetPJ() {
     try {
       const res = await axios.get(
-        "https://blue-green-llama-robe.cyclic.app/user/getAllSetPJ",
+        "https://backendpj-5daf09e9c27c.herokuapp.com/user/getAllSetPJ",
         {
           headers: {
             Authorization: Cookies.get("user"),

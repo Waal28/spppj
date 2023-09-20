@@ -11,7 +11,7 @@ export default function LoginComp() {
   const [isLoading, setIsLoading] = useState(false);
 
   const navigate = useNavigate();
-  async function login(e) {
+  function login(e) {
     e.preventDefault();
 
     const email_ = e.target.email.value;
@@ -49,7 +49,13 @@ export default function LoginComp() {
       <div className="hero min-h-screen bg-secondary">
         <div className="hero-content flex-col lg:flex-row-reverse">
           <div className="text-center lg:text-left">
-            <h1 className="text-5xl font-bold text-tPrimary">Login SPPPJ!</h1>
+            <h1 className="text-5xl font-bold text-tPrimary tracking-wider">
+              Login{" "}
+              <span className="font-serif">
+                si
+                <span className="bg-black rounded-lg px-1.5">PJ</span>
+              </span>
+            </h1>
             <p className="pt-6 text-tPrimary">
               Sistem Pemesanan dan Penentuan Penanggung Jawab
             </p>
