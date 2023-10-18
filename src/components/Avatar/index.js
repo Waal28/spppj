@@ -8,20 +8,14 @@ export default function AvatarComp() {
     <main>
       <div className="bg-kuarteneri flex text-neutral-content items-center rounded-full">
         <div className="ms-2 grid grid-cols-1">
-          <span
-            className="text-sm text-center text-tPrimary capitalize w-full transform scale-75"
-            style={{ textShadow: "0 2px 2px gray" }}
-          >
+          <span className="text-sm text-center -mb-1 font-medium text-primary capitalize w-full transform scale-75">
             {user.name ? (
               user.name
             ) : (
               <div className="animate-pulse w-20 h-3 bg-primary rounded-md "></div>
             )}
           </span>
-          <span
-            className="text-xs text-center text-tPrimary capitalize w-full transform scale-75"
-            style={{ textShadow: "0 2px 2px gray" }}
-          >
+          <span className="text-xs text-center -mt-1 font-medium text-primary capitalize w-full transform scale-75">
             {user.posisi ? (
               `(${user.posisi})`
             ) : (

@@ -15,10 +15,10 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        primary: "#65451F",
-        secondary: "#765827",
-        tertiary: "#C8AE7D",
-        kuarteneri: "#EAC696",
+        primary: "#643843",
+        secondary: "#99627A",
+        tertiary: "#C88EA7",
+        kuarteneri: "#E7CBCB",
         tPrimary: "#FFFFFF",
       },
     },
