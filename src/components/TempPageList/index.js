@@ -481,7 +481,7 @@ export default function TempPageList({ title, category, icon }) {
                 Untuk PJ jika semua pesanan sudah diterima silahkan klik tombol
                 hapus semua
               </li>
-              <li>Batas waktu list sarapan: 7:45</li>
+              <li>Batas waktu list sarapan: 7:40</li>
               <li>Batas waktu list makan Siang: 11:00</li>
             </ul>
           </span>
