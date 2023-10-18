@@ -5,6 +5,9 @@ import axios from "axios";
 import ModalComp from "../ModalComp";
 import AlertComp from "../AlertComp";
 import { useSelector } from "react-redux";
+import { useLocation } from "react-router-dom";
+import ModalOrderFailed from "../ModalOrderFailed";
+import Marquee from "react-fast-marquee";
 
 export default function TempPageList({ title, category, icon }) {
   const user = useSelector((state) => state.myReducer.user);
@@ -31,6 +34,9 @@ export default function TempPageList({ title, category, icon }) {
     funcYbutton: () => {},
   });
 
+  const location = useLocation();
+  const [isFailedOrder, setFailedOrder] = useState(false);
+  const [isActive, setIsActive] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [data, setData] = useState([]);
   const [dataModal, setDataModal] = useState({
@@ -41,20 +47,24 @@ export default function TempPageList({ title, category, icon }) {
   const [totalKembalian, setTotalKembalian] = useState(0);
 
   function clickTambah() {
-    setDataModal({
-      children: (
-        <ChildModalTambah
-          title={title}
-          category={category}
-          dataModal={dataModal}
-          setDataModal={setDataModal}
-          getAll={getAll}
-          user={user}
-          token={token}
-        />
-      ),
-      isClick: true,
-    });
+    if (isActive) {
+      setFailedOrder(true);
+    } else {
+      setDataModal({
+        children: (
+          <ChildModalTambah
+            title={title}
+            category={category}
+            dataModal={dataModal}
+            setDataModal={setDataModal}
+            getAll={getAll}
+            user={user}
+            token={token}
+          />
+        ),
+        isClick: true,
+      });
+    }
   }
   function clickHapusAll() {
     const dataConfirm = {
@@ -273,6 +283,58 @@ export default function TempPageList({ title, category, icon }) {
   }
 
   useEffect(() => {
+    const currentTime = new Date();
+    let currentHour = currentTime.getHours();
+    let currentMinute = currentTime.getMinutes();
+
+    let activeHourStart = 1;
+    let activeMinuteStart = 1;
+    let activeHourEnd = 1;
+    let activeMinuteEnd = 1;
+
+    if (location.pathname === "/sarapan") {
+      activeHourStart = 7;
+      activeMinuteStart = 40;
+      activeHourEnd = 10;
+      activeMinuteEnd = 0;
+
+      if (
+        (currentHour > activeHourStart ||
+          (currentHour === activeHourStart &&
+            currentMinute >= activeMinuteStart)) &&
+        (currentHour < activeHourEnd ||
+          (currentHour === activeHourEnd && currentMinute <= activeMinuteEnd))
+      ) {
+        console.log("tombol non aktif");
+        setIsActive(true);
+      } else {
+        console.log("tombol aktif");
+        setIsActive(false);
+      }
+    } else {
+      activeHourStart = 11;
+      activeMinuteStart = 0;
+      activeHourEnd = 13;
+      activeMinuteEnd = 0;
+
+      if (
+        (currentHour > activeHourStart ||
+          (currentHour === activeHourStart &&
+            currentMinute >= activeMinuteStart)) &&
+        (currentHour < activeHourEnd ||
+          (currentHour === activeHourEnd && currentMinute <= activeMinuteEnd))
+      ) {
+        console.log("tombol non aktif");
+        setIsActive(true);
+      } else {
+        console.log("tombol aktif");
+        setIsActive(false);
+      }
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  useEffect(() => {
     if (token) {
       getAll(false);
     }
@@ -285,6 +347,14 @@ export default function TempPageList({ title, category, icon }) {
           List {title} Hari Ini {icon}
         </div>
         <hr className="h-1 mx-auto bg-primary border-0 rounded my-3" />
+        <Marquee className="bg-secondary p-2 text-white font-medium uppercase text-sm">
+          <span className="pe-2 me-2 border-e-2 border-white">
+            Batas waktu list sarapan: 7:45
+          </span>
+          <span className="pe-2 me-2 border-e-2 border-white">
+            Batas waktu list makan siang: 11:00
+          </span>
+        </Marquee>
         {/* search */}
         <div className="join w-full border mx-auto mt-5">
           <input
@@ -405,8 +475,15 @@ export default function TempPageList({ title, category, icon }) {
         </div>
         <div className="text-xs mt-8 ">
           <span>
-            Catatan: Untuk PJ jika semua pesanan sudah diterima silahkan klik
-            tombol hapus semua
+            Catatan:
+            <ul className="list-disc ps-5">
+              <li>
+                Untuk PJ jika semua pesanan sudah diterima silahkan klik tombol
+                hapus semua
+              </li>
+              <li>Batas waktu list sarapan: 7:45</li>
+              <li>Batas waktu list makan Siang: 11:00</li>
+            </ul>
           </span>
           <br />
           <br />
@@ -449,6 +526,10 @@ export default function TempPageList({ title, category, icon }) {
         </div>
       </main>
       <ModalComp dataModal={dataModal} setDataModal={setDataModal} />
+      <ModalOrderFailed
+        isFailedOrder={isFailedOrder}
+        setFailedOrder={setFailedOrder}
+      />
       <ConfirmComp confirm={confirm} setConfirm={setConfirm} />
     </ParentComp>
   );

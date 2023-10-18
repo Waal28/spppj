@@ -52,7 +52,7 @@ export default function NavComp() {
           </label>
           <ul
             tabIndex={0}
-            className="menu menu-sm text-tPrimary dropdown-content mt-3 z-[1] p-2 shadow bg-primary rounded-box w-64"
+            className="menu menu-sm text-tPrimary dropdown-content mt-3 z-[2] p-2 shadow bg-primary rounded-box w-64"
           >
             <li>
               <Link className="flex" to="/">
