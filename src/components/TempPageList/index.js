@@ -349,7 +349,7 @@ export default function TempPageList({ title, category, icon }) {
         <hr className="h-1 mx-auto bg-primary border-0 rounded my-3" />
         <Marquee className="bg-secondary p-2 text-white font-medium uppercase text-sm">
           <span className="pe-2 me-2 border-e-2 border-white">
-            Batas waktu list sarapan: 7:45
+            Batas waktu list sarapan: 7:40
           </span>
           <span className="pe-2 me-2 border-e-2 border-white">
             Batas waktu list makan siang: 11:00
