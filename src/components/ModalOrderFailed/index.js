@@ -17,7 +17,11 @@ export default function ModalOrderFailed({ isFailedOrder, setFailedOrder }) {
             <h3 className="font-bold text-lg text-center text-white">
               Yahaha kasian gak bisa mesan ya
             </h3>
-            <img src={meme} alt="" style={{ width: "100%" }} />
+            <img
+              src={meme}
+              alt=""
+              style={{ width: "300px", margin: "5px auto" }}
+            />
             <h3 className="font-bold text-lg text-center text-white">
               Makanya list tepat waktu
             </h3>

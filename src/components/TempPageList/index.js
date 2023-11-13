@@ -281,8 +281,7 @@ export default function TempPageList({ title, category, icon }) {
       console.log(error.response.data.errors);
     }
   }
-
-  useEffect(() => {
+  function batasList() {
     const currentTime = new Date();
     let currentHour = currentTime.getHours();
     let currentMinute = currentTime.getMinutes();
@@ -295,7 +294,7 @@ export default function TempPageList({ title, category, icon }) {
     if (location.pathname === "/sarapan") {
       activeHourStart = 7;
       activeMinuteStart = 40;
-      activeHourEnd = 10;
+      activeHourEnd = 11;
       activeMinuteEnd = 0;
 
       if (
@@ -305,16 +304,14 @@ export default function TempPageList({ title, category, icon }) {
         (currentHour < activeHourEnd ||
           (currentHour === activeHourEnd && currentMinute <= activeMinuteEnd))
       ) {
-        console.log("tombol non aktif");
         setIsActive(true);
       } else {
-        console.log("tombol aktif");
         setIsActive(false);
       }
     } else {
       activeHourStart = 11;
       activeMinuteStart = 0;
-      activeHourEnd = 13;
+      activeHourEnd = 16;
       activeMinuteEnd = 0;
 
       if (
@@ -324,13 +321,16 @@ export default function TempPageList({ title, category, icon }) {
         (currentHour < activeHourEnd ||
           (currentHour === activeHourEnd && currentMinute <= activeMinuteEnd))
       ) {
-        console.log("tombol non aktif");
         setIsActive(true);
       } else {
-        console.log("tombol aktif");
         setIsActive(false);
       }
     }
+  }
+  useEffect(() => {
+    setInterval(() => {
+      batasList();
+    }, 1000);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
